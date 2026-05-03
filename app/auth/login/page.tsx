@@ -1,3 +1,4 @@
+import Heading from "@/src/shared/components/typography/Heading";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,11 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <>
-      <h1>Iniciar Sesión</h1>
+      <Heading
+        level={3}
+      >
+        Iniciar Sesión
+      </Heading>
     </>
   )
 }
