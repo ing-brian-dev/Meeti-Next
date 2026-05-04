@@ -1,3 +1,4 @@
+import LoginForm from "@/src/features/auth/components/LoginForm";
 import Heading from "@/src/shared/components/typography/Heading";
 import { generatePageTitle } from "@/src/shared/utils/metadata";
 import type { Metadata } from "next";
@@ -14,6 +15,7 @@ export default function LoginPage() {
       >
         Iniciar Sesión
       </Heading>
+      <LoginForm />
     </>
   )
 }
