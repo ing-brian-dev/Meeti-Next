@@ -1,10 +1,17 @@
 "use client";
 
-import { Form, FormInput, FormLabel } from "@/src/shared/components/forms";
+import { 
+    Form, 
+    FormInput, 
+    FormLabel, 
+    FormSubmit 
+} from "@/src/shared/components/forms";
 
 export default function RegisterForm() {
     return (
-        <Form>
+        <Form
+        
+        >
             <FormLabel
                 htmlFor="name"
             >
@@ -44,7 +51,10 @@ export default function RegisterForm() {
                 id="password-confirmation"
                 type="password"
                 placeholder="Repite tu Contraseña."
-            />            
+            />
+            <FormSubmit
+                value="Registrarme"
+            />
         </Form>
     )
 }
