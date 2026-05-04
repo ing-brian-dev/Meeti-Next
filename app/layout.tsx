@@ -7,7 +7,6 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Meeti Next",
   description: "Project Meeti Next.js with DrizzleORM",
