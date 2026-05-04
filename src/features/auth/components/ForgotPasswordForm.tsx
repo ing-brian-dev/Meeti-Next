@@ -4,7 +4,9 @@ import { Form, FormInput, FormLabel, FormSubmit } from "@/src/shared/components/
 
 export default function ForgotPasswordForm() {
     return (
-        <Form>
+        <Form
+        
+        >
             <FormLabel >E-mail</FormLabel>
             <FormInput 
                 type="email"

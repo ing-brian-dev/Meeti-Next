@@ -20,9 +20,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${outfit.variable}  h-full bg-white antialiased`}
+      className={`${outfit.variable} h-full bg-white antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }
