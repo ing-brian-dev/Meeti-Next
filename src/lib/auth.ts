@@ -8,5 +8,8 @@ export const auth = betterAuth({
         provider: 'pg',
         usePlural: true // Create tables with plural names
     }),
+    emailAndPassword: {
+        enabled: true
+    },
     plugins: [nextCookies()] // Always must have to be those cookies until below for nextjs 
 })

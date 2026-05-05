@@ -1,3 +1,4 @@
+import { auth } from "@/src/lib/auth";
 import { SingUpInput } from "../schemas/authSchema";
 
 class AuthService {
@@ -6,6 +7,13 @@ class AuthService {
         const { name, email, password } = credentials;
 
         
+        await auth.api.signUpEmail({
+            body: {
+                name,
+                email,
+                password
+            }
+        });
     }
 }
 
