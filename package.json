@@ -15,6 +15,7 @@
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-beta.22",
     "next": "16.2.4",
+    "nodemailer": "^8.0.7",
     "pg": "^8.20.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
