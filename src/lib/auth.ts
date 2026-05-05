@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { nextCookies } from 'better-auth/next-js';
 import { db } from '../db/index';
+import { AuthEmailService } from '../emails/services/AuthEmailService';
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -12,5 +13,17 @@ export const auth = betterAuth({
         enabled: true,
         requireEmailVerification: true
     },
-    plugins: [nextCookies()] // Always must have to be those cookies until below for nextjs 
+    emailVerification: {
+        sendOnSignIn:true,
+        autoSignInAfterVerification: true,
+        sendVerificationEmail: async (data) => {
+            const { name, email } = data.user;
+            await AuthEmailService.sendVerificationEmail({
+                name,
+                email,
+                url: data.url
+            });
+        }
+    },
+    plugins: [nextCookies()] // Those cookies must always be at the end for Next.js
 });

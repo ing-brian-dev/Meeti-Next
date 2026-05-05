@@ -25,8 +25,10 @@ class AuthService {
             body: {
                 name,
                 email,
-                password
-            }
+                password,
+                callbackURL: '/dashboard'
+            },
+            headers: await headers()
         });
 
         return {
@@ -50,8 +52,8 @@ class AuthService {
             await auth.api.signInEmail({
                 body: {
                     email,
-                    password,
-                    callbackURL: '/dashboard'
+                    password
+                    // callbackURL: '/dashboard' //This function only works on client components
                 },
                 headers: await headers()
             });

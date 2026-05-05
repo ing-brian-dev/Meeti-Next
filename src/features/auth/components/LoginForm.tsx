@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { SingInInput, SingInSchema } from "../schemas/authSchema";
 import { singInAction } from "../actions/auth-action";
 import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 export default function LoginForm() {
 
@@ -24,11 +25,12 @@ export default function LoginForm() {
         const { success, error } = await singInAction(data);
 
         if (error) {
-            toast.error(error)
+            toast.error(error);
         }
 
         if (success) {
-            toast.success(success)
+            toast.success(success);
+            redirect('/dashboard');
         }
     }
 
