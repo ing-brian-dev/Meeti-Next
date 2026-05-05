@@ -10,6 +10,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SingUpInput, SingUpSchema } from "../schemas/authSchema";
+import { singUpAction } from "../actions/auth-action";
 
 export default function RegisterForm() {
 
@@ -18,8 +19,10 @@ export default function RegisterForm() {
         mode: 'all'
     });
 
-    const onSubmit = (formData: SingUpInput) => {
-        console.log(formData);
+
+
+    const onSubmit = async (formData: SingUpInput) => {
+        await singUpAction(formData);
         
     }
 
