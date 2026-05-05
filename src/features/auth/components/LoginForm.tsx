@@ -34,7 +34,7 @@ export default function LoginForm() {
                 placeholder="Ingresa tu Password"
             />
             <FormSubmit
-                value="Iniciar Sesin"
+                value="Iniciar Sesión"
             />
         </Form>
     )
