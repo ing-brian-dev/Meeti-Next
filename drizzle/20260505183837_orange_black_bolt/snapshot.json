@@ -1,14 +1,20 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "11bc178b-c89c-4a44-a628-8aab91d5dcef",
+  "id": "d248d236-b968-4990-b926-fb0afcbd6c83",
   "prevIds": [
-    "6601e459-c1b0-48b8-9391-6ae0f99d9d44"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
       "isRlsEnabled": false,
       "name": "accounts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "communities",
       "entityType": "tables",
       "schema": "public"
     },
@@ -27,12 +33,6 @@
     {
       "isRlsEnabled": false,
       "name": "verifications",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "communities",
       "entityType": "tables",
       "schema": "public"
     },
@@ -204,6 +204,32 @@
       "entityType": "columns",
       "schema": "public",
       "table": "accounts"
+    },
+    {
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
+    },
+    {
+      "type": "varchar(255)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
     },
     {
       "type": "text",
@@ -479,32 +505,6 @@
       "table": "verifications"
     },
     {
-      "type": "uuid",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "gen_random_uuid()",
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "communities"
-    },
-    {
-      "type": "varchar(255)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "communities"
-    },
-    {
       "nameExplicit": true,
       "columns": [
         {
@@ -616,6 +616,16 @@
         "id"
       ],
       "nameExplicit": false,
+      "name": "communities_pkey",
+      "schema": "public",
+      "table": "communities",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
       "name": "sessions_pkey",
       "schema": "public",
       "table": "sessions",
@@ -639,16 +649,6 @@
       "name": "verifications_pkey",
       "schema": "public",
       "table": "verifications",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "communities_pkey",
-      "schema": "public",
-      "table": "communities",
       "entityType": "pks"
     },
     {

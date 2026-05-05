@@ -1,6 +1,6 @@
 "use server"
 
-import { SingUpInput, SingUpSchema } from "../schemas/authSchema";
+import { SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
 
 export async function singUpAction(input: SingUpInput) {
@@ -13,6 +13,19 @@ export async function singUpAction(input: SingUpInput) {
         }
     }
 
-    await authService.register(data.data);
+    const response = await authService.register(data.data);
+    return response;
+}
 
+export async function singInAction(input: SingInInput) {
+    const data = SingInSchema.safeParse(input);
+    if (!data.success) {
+        return {
+            error: '',
+            success: ''
+        }
+    }
+
+    const response = await authService.login(input);
+    return response;
 }

@@ -11,10 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SingUpInput, SingUpSchema } from "../schemas/authSchema";
 import { singUpAction } from "../actions/auth-action";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(SingUpSchema),
         mode: 'all'
     });
@@ -22,8 +23,17 @@ export default function RegisterForm() {
 
 
     const onSubmit = async (formData: SingUpInput) => {
-        await singUpAction(formData);
-        
+        const { error, success } = await singUpAction(formData);
+
+
+        if (error) {
+            toast.error(error);
+        }
+        if (success) {
+            toast.success(success);
+            reset(); // Reset form
+        }
+
     }
 
     return (
