@@ -9,7 +9,8 @@ export const auth = betterAuth({
         usePlural: true // Create tables with plural names
     }),
     emailAndPassword: {
-        enabled: true
+        enabled: true,
+        requireEmailVerification: true
     },
     plugins: [nextCookies()] // Always must have to be those cookies until below for nextjs 
 });
