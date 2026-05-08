@@ -11,10 +11,14 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true,
-        requireEmailVerification: true
+        requireEmailVerification: true,
+        sendResetPassword: async (data) => {
+            const { name, email } = data.user;
+             
+        },
     },
     emailVerification: {
-        sendOnSignIn:true,
+        sendOnSignIn: true,
         autoSignInAfterVerification: true,
         sendVerificationEmail: async (data) => {
             const { name, email } = data.user;

@@ -1,6 +1,6 @@
 "use server"
 
-import { SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
+import { ForgotPasswordInput, ForgotPasswordSchema, SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
 
 export async function singUpAction(input: SingUpInput) {
@@ -28,4 +28,19 @@ export async function singInAction(input: SingInInput) {
 
     const response = await authService.login(input);
     return response;
+}
+
+export async function forgotPasswordAction(input: ForgotPasswordInput) {
+    const data = ForgotPasswordSchema.safeParse(input);
+
+    if (!data.success) {
+        return {
+            error: 'Hubo un error',
+            success: ''
+        }
+    }
+
+    const response = await authService.requestPasswordReset(data.data);
+    return response;
+
 }
