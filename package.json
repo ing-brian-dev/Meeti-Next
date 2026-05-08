@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "better-auth": "^1.6.9",
     "clsx": "^2.1.1",
