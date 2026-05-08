@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 export default function ForgotPasswordForm() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: zodResolver(ForgotPasswordSchema),
         mode: 'all'
     });
@@ -17,8 +17,9 @@ export default function ForgotPasswordForm() {
     const onSubmit = async (data: ForgotPasswordInput) => {
         const { error, success } = await forgotPasswordAction(data);
 
-        if (error) return toast.error(error);
-        if (success) return toast.success(success);
+        if (error) { toast.error(error); }
+        if (success) { toast.success(success); }
+        reset();
     }
 
     return (
