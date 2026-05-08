@@ -1,5 +1,5 @@
 import { auth } from "@/src/lib/auth";
-import { SingInInput, SingUpInput } from "../schemas/authSchema";
+import { SingInInput, SingUpInput, ForgotPasswordInput, SetPasswordInput } from "../schemas/authSchema";
 import { authRepository, IAuthRepository } from "./AuthRespository";
 import { headers } from "next/headers";
 import { APIError } from "better-auth";
@@ -86,6 +86,58 @@ class AuthService {
             success: ''
         }
     }
+
+    async requestPasswordReset(input: ForgotPasswordInput) {
+        const user = await this.authRepository.userExists(input.email);
+
+        if (!user) return {
+            error: 'El usuario no existe',
+            success: ''
+        }
+
+        const { email } = input;
+        await auth.api.requestPasswordReset({
+            body: {
+                email
+            }
+        })
+
+        return {
+            error: '',
+            success: 'Hemos enviado un email con instrucciones.'
+        }
+    }
+
+    async confirmPasswordReset(input: SetPasswordInput, token: string) {
+        const { newPassword } = input;
+        try {
+            await auth.api.resetPassword({
+                body: {
+                    newPassword,
+                    token
+                }
+            });
+
+            return {
+                error: '',
+                success: 'Password Restablecido Correctamente.'
+            }
+        } catch (error) {
+            if (error instanceof APIError) {
+
+                return {
+                    error: 'Token no válido o Expirado.',
+                    success: ''
+                }
+            }
+        }
+        return {
+            error: '',
+            success: ''
+        }
+    }
 }
+
+
 
 export const authService = new AuthService(authRepository);
