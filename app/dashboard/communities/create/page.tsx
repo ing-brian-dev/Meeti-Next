@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Heading from "@/src/shared/components/typography/Heading";
 import { generatePageTitle } from "@/src/shared/utils/metadata";
+import CreateCommunity from "@/src/features/communities/components/CreateCommunity";
 
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function CreateCommunityPage() {
             >
                 Volver a mis Comunidades
             </Link>
+            <CreateCommunity />
         </>
     )
 }

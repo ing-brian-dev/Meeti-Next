@@ -3,7 +3,6 @@ import Link from "next/link";
 import Heading from "@/src/shared/components/typography/Heading";
 import { generatePageTitle } from "@/src/shared/utils/metadata";
 
-
 export const metadata: Metadata = {
     title: generatePageTitle('Comunidades a las que ne Uniste')
 }
