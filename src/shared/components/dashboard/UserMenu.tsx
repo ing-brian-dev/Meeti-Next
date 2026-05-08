@@ -1,7 +1,24 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import { signOut } from '@/src/lib/auth-client'
+import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function UserMenu() {
+
+    const handleOnCloseSession = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success('Deslogeado correctamente!.');
+                    redirect('/auth/login');
+                },
+                onError: () => {
+                    toast.error('Hubo un error.');
+                }
+            }
+        });
+    }
 
     return (
         <Menu as="div" className="relative ml-3">
@@ -42,6 +59,7 @@ export default function UserMenu() {
                 <MenuItem>
                     <button
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
+                        onClick={() => handleOnCloseSession()}
                     >
                         Cerrar Sesión
                     </button>
