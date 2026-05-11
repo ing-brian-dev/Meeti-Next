@@ -1,10 +1,14 @@
+import { CommunityInput } from "@/src/features/communities/schemas/communitySchema";
 import { UploadDropzone } from "@/src/shared/utils/uploadthing";
 import Image from "next/image";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import { FormError } from "../forms";
 
 
 export default function UploadImage() {
+    const { formState: { errors }, setValue, clearErrors } = useFormContext<CommunityInput>();
     const [uploadedImage, setUploadedImage] = useState('');
 
     return (
@@ -19,6 +23,8 @@ export default function UploadImage() {
                 }}
                 onClientUploadComplete={(res) => {
                     setUploadedImage(res[0].ufsUrl);
+                    setValue('image', res[0].ufsUrl);
+                    clearErrors('image');
                 }}
                 content={{
                     button: 'Selecciona una imagen',
@@ -30,6 +36,7 @@ export default function UploadImage() {
                     mode: 'auto'
                 }}
             />
+            {errors.image && <FormError>{errors.image.message}</FormError>}
             {uploadedImage && (
                 <>
                     <p
