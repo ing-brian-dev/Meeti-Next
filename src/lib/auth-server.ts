@@ -1,12 +1,16 @@
 import { headers } from "next/headers";
 import { auth } from "./auth";
 
-
 export async function getServerSession() {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    });
-    return session;;
+    try {
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
+
+        return session;
+    } catch (error) {
+        return;
+    }
 }
 
 export async function requireAuth() {
@@ -14,6 +18,6 @@ export async function requireAuth() {
 
     return {
         session,
-        isAuth: session ? true : false
-    }
+        isAuth: !!session
+    };
 }
