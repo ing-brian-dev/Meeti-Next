@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
+    "@uploadthing/react": "^7.3.3",
     "better-auth": "^1.6.9",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
@@ -23,6 +24,8 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.75.0",
     "react-hot-toast": "^2.6.0",
+    "tailwind-merge": "^3.6.0",
+    "uploadthing": "^7.7.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {

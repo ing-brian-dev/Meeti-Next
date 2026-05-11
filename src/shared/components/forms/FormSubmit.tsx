@@ -1,14 +1,16 @@
-import { InputHTMLAttributes } from "react";
+import clsx from "clsx";
+import type { InputHTMLAttributes } from "react";
 
 type FormSubmitProps = InputHTMLAttributes<HTMLInputElement>
 
 
 export default function FormSubmit(props: FormSubmitProps) {
+    const { className } = props;
     return (
         <input
             {...props}
             type="submit"
-            className="bg-pink-600 w-full p-2 mt-5 uppercase font-black text-white cursor-pointer"
+            className={clsx('bg-pink-600 w-full p-2 mt-5 uppercase font-black text-white cursor-pointer', className)}
         />
     )
 }
