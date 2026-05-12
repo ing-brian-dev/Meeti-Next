@@ -16,7 +16,9 @@ export default async function EditCommunityPage(props: PageProps<'/dashboard/com
     return (
         <>
             <Heading>Editar Comunidad</Heading>
-            <EditCommunity />
+            <EditCommunity 
+                community={community.data}
+            />
         </>
     )
 }
