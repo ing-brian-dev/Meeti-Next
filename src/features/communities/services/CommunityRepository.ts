@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 export interface ICommunityRepository {
     create(data: InsertCommunity): Promise<SelectCommunity>;
     findByUser(userId: string, limit?: number): Promise<SelectCommunity[]>;
+    findById(communityId: string): Promise<SelectCommunity | undefined>;
 }
 
 class CommunityRepository implements ICommunityRepository {
@@ -22,6 +23,16 @@ class CommunityRepository implements ICommunityRepository {
             .where(eq(community.createdBy, userId))
             .limit(limit);
         return communities;
+    }
+
+    async findById(communityId: string) {
+        const [result] = await db
+            .select()
+            .from(community)
+            .where(eq(community.id, communityId))
+            .limit(1);
+
+        return result;
     }
 }
 

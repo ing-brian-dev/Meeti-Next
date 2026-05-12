@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { User } from "../../auth/types/auth.types";
 import { CommunityPolicy } from "../policies/CommunityPolicy";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
@@ -39,6 +40,14 @@ class CommunityService {
         }));
 
         return enriched;
+    }
+
+    async getCommunity(communityId: string) { 
+        const community = await this.communityRepository.findById(communityId);
+
+        if(!community) notFound();
+
+        return community;
     }
 }
 
