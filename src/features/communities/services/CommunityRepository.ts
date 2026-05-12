@@ -2,11 +2,13 @@ import { db } from "@/src/db"
 import { InsertCommunity, SelectCommunity } from "../types/community.types"
 import { community } from "@/src/db/schema"
 import { eq } from "drizzle-orm";
+import { CommunityInput } from "../schemas/communitySchema";
 
 export interface ICommunityRepository {
     create(data: InsertCommunity): Promise<SelectCommunity>;
     findByUser(userId: string, limit?: number): Promise<SelectCommunity[]>;
     findById(communityId: string): Promise<SelectCommunity | undefined>;
+    update(data: CommunityInput, communityId: string): Promise<void>;
 }
 
 class CommunityRepository implements ICommunityRepository {
@@ -33,6 +35,13 @@ class CommunityRepository implements ICommunityRepository {
             .limit(1);
 
         return result;
+    }
+
+    async update(data: CommunityInput, communityId: string) {
+        await db
+            .update(community).set({
+                ...data
+            }).where(eq(community.id, communityId));
     }
 }
 

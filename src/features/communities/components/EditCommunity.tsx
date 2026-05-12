@@ -5,6 +5,9 @@ import { CommunityInput, CommunitySchema } from "../schemas/communitySchema";
 import { Form, FormSubmit } from "@/src/shared/components/forms";
 import CommunityForm from "./CommunityForm";
 import { SelectCommunity } from "../types/community.types";
+import { editCommunityAction } from "../actions/community-actions";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 type EditCommunityProps = {
     community: SelectCommunity
@@ -12,7 +15,7 @@ type EditCommunityProps = {
 
 export default function EditCommunity({ community }: EditCommunityProps) {
 
-    const { name, description, image } = community;
+    const { id, name, description, image } = community;
 
     const methods = useForm({
         resolver: zodResolver(CommunitySchema),
@@ -26,8 +29,12 @@ export default function EditCommunity({ community }: EditCommunityProps) {
 
 
     const onSubmit = async (data: CommunityInput) => {
-        console.log(data);
-        
+        const { error, success } = await editCommunityAction(data, id)
+        if(error){toast.error(error)}
+        if(success) {
+            toast.success(success);
+            redirect('/dashboard/communities');
+        }
     }
 
     return (

@@ -72,6 +72,17 @@ class CommunityService {
             }
         }
     }
+
+    async updateCommunity(data: CommunityInput, communityId: string, user: User) {
+        const community = await this.getCommunity(communityId);
+
+        if (!CommunityPolicy.canEdit(user, community)){
+            throw new Error('No tienes permisos para actualizar esta comunidad.');
+        }
+
+        await this.communityRepository.update(data,communityId);
+
+    }
 }
 
 export const communityService = new CommunityService(communityRepository);
