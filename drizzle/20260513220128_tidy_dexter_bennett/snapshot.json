@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "d248d236-b968-4990-b926-fb0afcbd6c83",
+  "id": "669fc21b-607e-4ee6-8879-ec1f7f6cb30d",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -15,6 +15,12 @@
     {
       "isRlsEnabled": false,
       "name": "communities",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "community_members",
       "entityType": "tables",
       "schema": "public"
     },
@@ -230,6 +236,97 @@
       "entityType": "columns",
       "schema": "public",
       "table": "communities"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "description",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
+    },
+    {
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "image",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "createdAt",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "created_by",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "communities"
+    },
+    {
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "community_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "community_members"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "community_members"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "joined_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "community_members"
     },
     {
       "type": "text",
@@ -583,6 +680,40 @@
       "entityType": "fks",
       "schema": "public",
       "table": "accounts"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "community_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "communities",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "community_members_community_id_communities_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "community_members"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "community_members_user_id_users_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "community_members"
     },
     {
       "nameExplicit": false,
