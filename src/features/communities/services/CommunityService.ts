@@ -6,11 +6,12 @@ import { CommunityInput } from "../schemas/communitySchema";
 import { communityRepository, ICommunityRepository } from "./CommunityRepository";
 import { checkPassword } from "@/src/shared/utils/auth";
 import { deleteUTFiles } from "@/src/lib/uploadthing-server";
-import { permission } from "process";
+import { IMembershipRepository, membershipRepository } from "./MembershipRepository";
 
 class CommunityService {
     constructor(
-        private communityRepository: ICommunityRepository
+        private communityRepository: ICommunityRepository,
+        private membershipRepository: IMembershipRepository
     ) { }
 
     async createCommunity(data: CommunityInput, userId: string) {
@@ -57,7 +58,7 @@ class CommunityService {
 
         const community = await this.getCommunity(communityId);
 
-        if(!user) {
+        if (!user) {
             return {
                 data: community,
                 context: null,
@@ -65,7 +66,7 @@ class CommunityService {
             }
         }
 
-        const isMember = false;
+        const isMember = await this.membershipRepository.isMember(community.id, user.id);
         const isAdmin = CommunityPolicy.isAdmin(user, community);
 
         return {
@@ -103,16 +104,16 @@ class CommunityService {
         }
 
         const isValidPassword = await checkPassword(password);
-        if(!isValidPassword){
+        if (!isValidPassword) {
             return {
                 error: 'El password es incorrecto',
-                success : ''
+                success: ''
             }
         }
 
         await this.communityRepository.delete(communityId);
         await deleteUTFiles(community.image);
-        
+
         return {
             error: '',
             success: 'Comunidad eliminada Correctamente!'
@@ -120,4 +121,4 @@ class CommunityService {
     }
 }
 
-export const communityService = new CommunityService(communityRepository);
+export const communityService = new CommunityService(communityRepository, membershipRepository);

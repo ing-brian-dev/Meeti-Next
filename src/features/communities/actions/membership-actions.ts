@@ -8,5 +8,6 @@ export async function toggleMembershipAction(communityId: string) {
 
     if (!session) throw new Error('Usuario no autenticado.');
 
-    await membershipService.toggleMembership(communityId, session.user);
+    const response = await membershipService.toggleMembership(communityId, session.user);
+    return response;
 }
