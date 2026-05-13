@@ -71,6 +71,6 @@ export async function deleteCommunityAction(input: CheckPasswordInput, community
         }
     }
 
-    await communityService.deleteCommunity(communityId, input.password, session.user);
-
+    const response = await communityService.deleteCommunity(communityId, input.password, session.user);
+    return response;
 }

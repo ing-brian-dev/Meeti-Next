@@ -26,7 +26,7 @@ export default async function MyCommunities() {
     ) : <p
       className="text-center mt-10 text-lg"
     >
-      No hay Comunidades aún
+      No hay Comunidades aún {""}
       <Link
         href={'/dashboard/communities/create'}
         className="text-orange-500 font-bold"

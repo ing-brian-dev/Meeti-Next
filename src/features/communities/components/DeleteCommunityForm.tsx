@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckPasswordInput, CheckPasswordSchema } from "../../auth/schemas/authSchema";
 import { deleteCommunityAction } from "../actions/community-actions";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 export default function DeleteCommunityForm() {
 
@@ -15,7 +17,17 @@ export default function DeleteCommunityForm() {
 
     const onSubmit = async (data: CheckPasswordInput) => {
         if (!community) return;
-        await deleteCommunityAction(data, community.id);
+        const { error, success } = await deleteCommunityAction(data, community.id);
+
+        if (error) { toast.error(error) }
+        if(success) {
+            toast.success(success);
+            setOpen(false);
+            setCommunity(null);
+            setTimeout(() => {
+                redirect('/dashboard/communities');
+            }, 1000);
+        }
     }
 
     return (
