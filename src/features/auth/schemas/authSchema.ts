@@ -36,7 +36,12 @@ export const SetPasswordSchema = BaseAuthSchema.pick({
     path: ['passwordConfirmation']
 });
 
+export const CheckPasswordSchema = z.object({
+    password: z.string().min(1, {error: 'El password es requerido.'})
+});
+
 export type SingUpInput = z.infer<typeof SingUpSchema>
 export type SingInInput = z.infer<typeof SingInSchema>
 export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
 export type SetPasswordInput = z.infer<typeof SetPasswordSchema>
+export type CheckPasswordInput = z.infer<typeof CheckPasswordSchema>

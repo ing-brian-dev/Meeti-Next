@@ -10,7 +10,7 @@ type CommunityDropdownMenuProps = {
 }
 
 export default function CommunityDropdownMenu({ community }: CommunityDropdownMenuProps) {
-    const { setOpen } = useCommunityStore();
+    const { setOpen, setCommunity } = useCommunityStore();
     return (
         <Menu as="div" className="relative flex-none">
             <MenuButton className="relative block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black cursor-pointer">
@@ -43,6 +43,7 @@ export default function CommunityDropdownMenu({ community }: CommunityDropdownMe
                         type="button"
                         onClick={() => {
                             setOpen(true);
+                            setCommunity(community);
                         }}
                         className="block text-left w-full px-3 py-1 text-sm/6 text-red-600 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer"
                     >

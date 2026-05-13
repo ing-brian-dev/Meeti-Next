@@ -3,12 +3,20 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useCommunityStore } from '../store/community.store'
+import DeleteCommunityForm from './DeleteCommunityForm';
 
 export default function DeleteCommunityModal() {
-    const { open, setOpen } = useCommunityStore();
+    const { open, setOpen, community, setCommunity } = useCommunityStore();
     return (
         <div>
-            <Dialog open={open} onClose={() => {setOpen(false) }} className="relative z-50">
+            <Dialog 
+                open={open} 
+                onClose={() => { 
+                    setOpen(false);
+                    setCommunity(null);
+                }} 
+                className="relative z-50"
+            >
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-gray-800/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-gray-900/50"
@@ -25,14 +33,13 @@ export default function DeleteCommunityModal() {
                                 </div>
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <DialogTitle as="h3" className="text-base font-semibold text-gray-900 dark:text-white">
-                                        Eliminar Comunidad:
+                                        Eliminar Comunidad: {community?.name}
                                     </DialogTitle>
                                     <div className="mt-2">
                                         <p className="text-gray-600  ">
                                             ¿Confirmas que deseas eliminar la Comunidad? Una comunidad eliminada no se puede recuperar.
                                         </p>
-
-                                        {/* Form aquí */}
+                                        <DeleteCommunityForm />
                                     </div>
                                 </div>
                             </div>
