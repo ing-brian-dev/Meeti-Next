@@ -26,7 +26,8 @@ export default function CommunityItem({ community }: CommunityItemProps) {
                 </div>
                 <div className="min-w-0 flex-auto">
                     <Link
-                        href={`/`}
+                        href={`/communities/${community.data.id}`}
+                        target="_blank"
                         className="hover:underline font-bold text-lg"
                     >
                         {name}
