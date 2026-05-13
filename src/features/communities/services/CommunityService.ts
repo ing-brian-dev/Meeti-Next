@@ -5,6 +5,7 @@ import { MembershipPolicy } from "../policies/MembershipPolicy";
 import { CommunityInput } from "../schemas/communitySchema";
 import { communityRepository, ICommunityRepository } from "./CommunityRepository";
 import { checkPassword } from "@/src/shared/utils/auth";
+import { deleteUTFiles } from "@/src/lib/uploadthing-server";
 
 class CommunityService {
     constructor(
@@ -101,6 +102,8 @@ class CommunityService {
         }
 
         await this.communityRepository.delete(communityId);
+        await deleteUTFiles(community.image);
+        
         return {
             error: '',
             success: 'Comunidad eliminada Correctamente!'
