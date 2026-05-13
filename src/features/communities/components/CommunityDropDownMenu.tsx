@@ -3,13 +3,14 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline"
 import { SelectCommunity } from "../types/community.types"
 import Link from "next/link"
+import { useCommunityStore } from "../store/community.store"
 
 type CommunityDropdownMenuProps = {
     community: SelectCommunity
 }
 
 export default function CommunityDropdownMenu({ community }: CommunityDropdownMenuProps) {
-
+    const { setOpen } = useCommunityStore();
     return (
         <Menu as="div" className="relative flex-none">
             <MenuButton className="relative block text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black cursor-pointer">
@@ -40,7 +41,9 @@ export default function CommunityDropdownMenu({ community }: CommunityDropdownMe
                 <MenuItem>
                     <button
                         type="button"
-                        onClick={() => { }}
+                        onClick={() => {
+                            setOpen(true);
+                        }}
                         className="block text-left w-full px-3 py-1 text-sm/6 text-red-600 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer"
                     >
                         Eliminar<span className="sr-only">, {community.name}</span>
