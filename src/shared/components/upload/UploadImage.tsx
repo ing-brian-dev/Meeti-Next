@@ -8,7 +8,7 @@ import { FormError } from "../forms";
 
 
 export default function UploadImage() {
-    const { formState: { errors }, setValue, clearErrors, getValues } = useFormContext<CommunityInput>();
+    const { formState: { errors }, setValue, clearErrors, getValues, setError } = useFormContext<CommunityInput>();
     const [uploadedImage, setUploadedImage] = useState('');
 
     const currentImage = getValues('image') ? getValues('image') : null;
@@ -36,6 +36,13 @@ export default function UploadImage() {
                 config={{
                     cn: twMerge,
                     mode: 'auto'
+                }}
+                onUploadError={(error) => {
+                    if (error.code === "BAD_REQUEST") {
+                        setError('image', {
+                            message: "El tamaño del archivo es mas de 1MB"
+                        });
+                    }
                 }}
             />
             {errors.image && <FormError>{errors.image.message}</FormError>}

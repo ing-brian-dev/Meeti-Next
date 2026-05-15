@@ -9,7 +9,7 @@ type CommunityItemProps = {
 
 export default function CommunityItem({ community }: CommunityItemProps) {
 
-    const { name, image, id, description } = community.data;
+    const { name, image, description } = community.data;
 
     return (
         <li className="flex justify-between gap-x-6 py-5">
@@ -40,7 +40,7 @@ export default function CommunityItem({ community }: CommunityItemProps) {
                     <p
                         className="text-gray-600 text-sm"
                     >
-
+                        {community.memberCount}
                     </p>
                 </div>
             </div>

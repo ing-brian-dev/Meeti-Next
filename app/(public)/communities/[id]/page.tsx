@@ -2,7 +2,17 @@ import CommunityActionsPanel from '@/src/features/communities/components/Communi
 import { communityService } from '@/src/features/communities/services/CommunityService';
 import { getServerSession } from '@/src/lib/auth-server';
 import Heading from '@/src/shared/components/typography/Heading';
+import { generatePageTitle } from '@/src/shared/utils/metadata';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export async function generateMetadata({ params }: PageProps<'/communities/[id]'>) : Promise<Metadata> {
+    const { id } = await params;
+    const community = await communityService.getCommunityDetails(id);
+    return {
+        title: generatePageTitle(`Comunidad: ${community.data.id}`)
+    }
+}
 
 export default async function CommunityPage(props: PageProps<'/communities/[id]'>) {
 

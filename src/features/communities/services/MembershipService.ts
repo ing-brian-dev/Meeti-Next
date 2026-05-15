@@ -44,11 +44,14 @@ class MembershipService {
     async getJoinedCommunities(user: User) {
         const joined = await this.membershipRepository.findJoinedCommunities(user.id);
 
-        const enriched = await Promise.all(joined.map(async ({community}) => {
+        const enriched = await Promise.all(joined.map(async ({ community }) => {
             const isMember = true;
-            const isAdmin = CommunityPolicy.isAdmin(user, community)
+            const isAdmin = CommunityPolicy.isAdmin(user, community);
+            const memberCount = await this.membershipRepository.getMemberCount(community.id);
+
             return {
                 data: community,
+                memberCount,
                 context: {
                     isMember,
                     isAdmin
