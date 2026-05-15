@@ -29,6 +29,11 @@ export const relations = defineRelations(schema, (r) => ({
       from: r.communityMembers.communityId,
       to: r.community.id,
       optional: false
+    }),
+    user: r.one.users({
+      from: r.communityMembers.userId,
+      to: r.users.id,
+      optional: false
     })
   }
 }));
