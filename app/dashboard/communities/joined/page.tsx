@@ -2,12 +2,21 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Heading from "@/src/shared/components/typography/Heading";
 import { generatePageTitle } from "@/src/shared/utils/metadata";
+import { requireAuth } from "@/src/lib/auth-server";
+import { redirect } from "next/navigation";
+import { membershipService } from "@/src/features/communities/services/MembershipService";
 
 export const metadata: Metadata = {
     title: generatePageTitle('Comunidades a las que ne Uniste')
 }
 
-export default function JoinedCommunitiesPage() {
+export default async function JoinedCommunitiesPage() {
+
+    const { session } = await requireAuth();
+    if (!session) redirect('/auth/login');
+
+    await membershipService.getJoinedCommunities(session.user);
+
     return (
         <>
             <Heading>Comunidades a las que ne Uniste</Heading>

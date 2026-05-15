@@ -40,6 +40,10 @@ class MembershipService {
             }
         }
     }
+
+    async getJoinedCommunities(user: User){
+       await this.membershipRepository.findJoinedCommunities(user.id); 
+    }
 }
 
 export const membershipService = new MembershipService(membershipRepository, communityRepository);
