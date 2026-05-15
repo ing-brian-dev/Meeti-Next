@@ -2,6 +2,7 @@ import Image from "next/image";
 import { CommunityWithPermissions } from "../types/community.types"
 import Link from "next/link";
 import CommunityDropdownMenu from "./CommunityDropDownMenu";
+import { pluralize } from "@/src/shared/utils/string";
 
 type CommunityItemProps = {
     community: CommunityWithPermissions;
@@ -40,7 +41,7 @@ export default function CommunityItem({ community }: CommunityItemProps) {
                     <p
                         className="text-gray-600 text-sm"
                     >
-                        {community.memberCount}
+                        {community.memberCount} {pluralize('Seguidor', community.memberCount)}
                     </p>
                 </div>
             </div>
