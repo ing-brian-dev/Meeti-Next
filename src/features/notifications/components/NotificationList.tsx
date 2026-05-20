@@ -1,16 +1,41 @@
+"use client"
 import { formatCreatedDate } from "@/src/shared/utils/date"
 import { SelectNotification } from "../types/notification.types"
+import { useEffect, useState } from "react"
+import Pusher from "pusher-js"
+import { useSession } from "@/src/lib/auth-client"
 
 type NotificationListProps = {
     notifications: SelectNotification[]
 }
 
 export default function NotificationList({ notifications }: NotificationListProps) {
+
+    const [unreadNotifications, setUnreadNotifications] = useState(notifications);
+    const { data } = useSession();
+    useEffect(() => {
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+            cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
+        });
+
+        const id = `notification-channel-${data?.user.id}`;
+
+        const channel = pusher.subscribe(id);
+        channel.bind('new-notification', (notification: SelectNotification) => {
+            setUnreadNotifications((prev) => [notification, ...prev]);
+        });
+
+        return () => {
+            channel.unbind_all()
+            channel.unsubscribe()
+        }
+
+    }, [data]);
     return (
         <div
             className="space-y-4 mt-10"
         >
-            {notifications.length ? (
+            {unreadNotifications.length ? (
                 notifications.map(notification => (
                     <div
                         key={notification.id}
@@ -32,11 +57,11 @@ export default function NotificationList({ notifications }: NotificationListProp
                     </div>
                 ))
             ) : (
-            <p
-                className="text-center mt-10 text-lg text-gray-600"
-            >
-                No hay notificaciones
-            </p>
+                <p
+                    className="text-center mt-10 text-lg text-gray-600"
+                >
+                    No hay notificaciones
+                </p>
             )}
         </div>
     )
