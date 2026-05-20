@@ -1,4 +1,5 @@
 import { BellIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { Suspense, use } from 'react';
 
 const notificationPromise = fetch('/api/user/notifications').then(res => res.json())
@@ -7,7 +8,8 @@ function NotificationCount() {
   const totalNotifications = use(notificationPromise);
 
   return (
-    <a
+    <Link
+    href={'/dashboard/notifications'}
       className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white"
     >
       <span className="sr-only">View notifications</span>
@@ -22,7 +24,7 @@ function NotificationCount() {
           {totalNotifications}
         </span>
       )}
-    </a>
+    </Link>
   );
 }
 

@@ -5,7 +5,8 @@ import { and, count, eq } from "drizzle-orm";
 
 export interface INotificationRepository {
     create(data: InsertNotification): Promise<SelectNotification>;
-    getUnreadCount(userId: string): Promise<number>
+    getUnreadCount(userId: string): Promise<number>;
+    findByUserId(userId: string): Promise<SelectNotification[]>
 }
 
 class NotificationRepository implements INotificationRepository {
@@ -25,10 +26,23 @@ class NotificationRepository implements INotificationRepository {
                     eq(notifications.userId, userId),
                     eq(notifications.read, false)
                 )
-            );            
-        return result.count; 
+            );
+        return result.count;
     }
 
+    async findByUserId(userId: string) {
+        const result = db.query.notifications.findMany({
+            where: {
+                AND: [
+                    { userId: { eq: userId } },
+                    { read: { eq: false } }
+                ]
+            },
+            limit: 10,
+            orderBy: { createdAt: 'desc' }
+        });
+        return result;
+    }
 }
 
 export const notificationRepository = new NotificationRepository();
