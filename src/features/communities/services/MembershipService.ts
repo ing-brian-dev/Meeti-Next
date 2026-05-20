@@ -3,13 +3,13 @@ import { IMembershipRepository, membershipRepository } from "./MembershipReposit
 import { ICommunityRepository, communityRepository } from "./CommunityRepository";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
 import { CommunityPolicy } from "../policies/CommunityPolicy";
-import { INotificationRepository, notificationRepository } from "../../notifications/services/NotificationRepository";
+import { INotificationService, notificationService } from "../../notifications/services/NotificationService";
 
 class MembershipService {
     constructor(
         private membershipRepository: IMembershipRepository,
         private communityRepository: ICommunityRepository,
-        private notificationRepository: INotificationRepository
+        private notificationService : INotificationService
     ) { }
 
     async toggleMembership(communityId: string, user: User) {
@@ -21,13 +21,13 @@ class MembershipService {
         if (MembershipPolicy.canJoin(user, community, isMember)) {
             await this.membershipRepository.addMember(communityId, user.id);
 
-            const notification = await this.notificationRepository.create({
+            await this.notificationService.createAndNotify({
                 userId: community.createdBy,
                 actorName: user.name,
                 message: 'Se unio a tu comunidad.',
                 target: community.name
             });
-            
+
             return {
                 success: true,
                 message: `Te has unido a la comunidad: ${community.name}`,
@@ -80,4 +80,4 @@ class MembershipService {
     }
 }
 
-export const membershipService = new MembershipService(membershipRepository, communityRepository, notificationRepository);
+export const membershipService = new MembershipService(membershipRepository, communityRepository, notificationService);
