@@ -1,3 +1,4 @@
+import NotificationList from "@/src/features/notifications/components/NotificationList"
 import { notificationService } from "@/src/features/notifications/services/NotificationService"
 import { requireAuth } from "@/src/lib/auth-server"
 import Heading from "@/src/shared/components/typography/Heading"
@@ -18,6 +19,11 @@ export default async function NotificationsPage() {
     const notifications = await notificationService.getUserNotifications(session.user.id);
 
     return (
-        <Heading>{title}</Heading>
+        <>
+            <Heading>{title}</Heading>
+            <NotificationList 
+                notifications={notifications}
+            />
+        </>
     )
 }

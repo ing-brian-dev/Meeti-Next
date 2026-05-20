@@ -12,7 +12,7 @@ class NotificationService {
     }
 
     async getUserNotifications(userId: string): Promise<SelectNotification[]> {
-        return this.notificationRepository.findByUserId(userId)
+        return this.notificationRepository.findByUserId(userId);
     }
 }
 
