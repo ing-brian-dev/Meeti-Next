@@ -7,11 +7,15 @@ import Logo from '../ui/Logo';
 import UserMenu from './UserMenu';
 import MobileSidebar from './MobileSidebar';
 import DashboardNavigation from './DashboardNavigation';
-import NotificationsPanel from './NotificationCount';
+import NotificationsPanel from './NotificationPanel';
+import { useSession } from '@/src/lib/auth-client';
 
 export default function DashboardPanel() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const { isPending } = useSession();
+    if(isPending) return 'Cargando...';
+    
     return (
         <>
             <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
