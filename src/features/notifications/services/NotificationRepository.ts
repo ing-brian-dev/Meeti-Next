@@ -6,7 +6,8 @@ import { and, count, eq } from "drizzle-orm";
 export interface INotificationRepository {
     create(data: InsertNotification): Promise<SelectNotification>;
     getUnreadCount(userId: string): Promise<number>;
-    findByUserId(userId: string): Promise<SelectNotification[]>
+    findByUserId(userId: string): Promise<SelectNotification[]>;
+    delete(userId: string): Promise<void>;
 }
 
 class NotificationRepository implements INotificationRepository {
@@ -42,6 +43,12 @@ class NotificationRepository implements INotificationRepository {
             orderBy: { createdAt: 'desc' }
         });
         return result;
+    }
+
+    async delete(userId: string) {
+        await db.update(notifications).set({
+            read: true
+        }).where(eq(notifications.userId, userId));
     }
 }
 

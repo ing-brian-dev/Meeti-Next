@@ -17,11 +17,12 @@ export default async function NotificationsPage() {
     if (!session) redirect('/auth/login');
 
     const notifications = await notificationService.getUserNotifications(session.user.id);
-
+    await notificationService.clearNotifications(session.user.id);
+    
     return (
         <>
             <Heading>{title}</Heading>
-            <NotificationList 
+            <NotificationList
                 notifications={notifications}
             />
         </>

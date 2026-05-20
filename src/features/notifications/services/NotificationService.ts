@@ -14,6 +14,10 @@ class NotificationService {
     async getUserNotifications(userId: string): Promise<SelectNotification[]> {
         return this.notificationRepository.findByUserId(userId);
     }
+
+    async clearNotifications(userId: string): Promise<void> { 
+        return await this.notificationRepository.delete(userId);
+    }
 }
 
 export const notificationService = new NotificationService(notificationRepository)
