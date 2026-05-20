@@ -18,10 +18,10 @@ function NotificationCount() {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
     });
 
-    const id = `notifications-channel-${data?.user.id}`;
+    const id = `notification-channel-${data?.user.id}`;
 
     const channel = pusher.subscribe(id);
-    channel.bind('new-notifications', (notification: SelectNotification) => {
+    channel.bind('new-notification', (notification: SelectNotification) => {
       setTotalNotifications((prev) => prev + 1);
     });
 
