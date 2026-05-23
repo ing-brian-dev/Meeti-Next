@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "drizzle:seed" : "tsx ./src/db/seed"
+    "drizzle:seed": "tsx ./src/db/seed"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
@@ -19,6 +19,7 @@
     "date-fns": "^4.2.1",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-beta.22",
+    "leaflet": "^1.9.4",
     "next": "16.2.4",
     "nodemailer": "^8.0.7",
     "pg": "^8.20.0",
@@ -28,6 +29,7 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.75.0",
     "react-hot-toast": "^2.6.0",
+    "react-leaflet": "^5.0.0",
     "tailwind-merge": "^3.6.0",
     "uploadthing": "^7.7.4",
     "zod": "^4.4.3",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
