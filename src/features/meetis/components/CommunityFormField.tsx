@@ -1,6 +1,11 @@
-import { FormLabel, FormSelect } from "@/src/shared/components/forms"
+import { FormLabel, FormSelect } from "@/src/shared/components/forms";
+import { Suspense, use } from "react";
+
+const communitiesPromise = fetch('/api/user/communities').then(res => res.json());
 
 function CommunityOptions() {
+
+    const communities = use<{ id: string, name: string }[]>(communitiesPromise);
 
     return (
         <>
@@ -9,10 +14,18 @@ function CommunityOptions() {
             >
                 Comunidad Meeti
             </FormLabel>
-            <FormSelect 
+            <FormSelect
 
             >
                 <option value="" disabled>Selecciona Comunidad</option>
+                {communities.map(community =>
+                    <option
+                        key={community.id}
+                        value={community.id}
+                    >
+                        {community.name}
+                    </option>
+                )}
             </FormSelect>
         </>
     )
@@ -20,6 +33,10 @@ function CommunityOptions() {
 
 export default function CommunityFormField() {
     return (
-        <div>CommunityFormField</div>
+        <Suspense
+            fallback="Cargando"
+        >
+            <CommunityOptions />
+        </Suspense>
     )
 }
