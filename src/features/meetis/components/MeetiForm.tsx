@@ -1,5 +1,6 @@
 import { FormInput, FormLabel, FormTextArea, FormToggle } from "@/src/shared/components/forms";
 import CommunityFormField from "./CommunityFormField";
+import CategoryFormField from "./CategoryFormField";
 
 export default function MeetiForm() {
 
@@ -21,6 +22,7 @@ export default function MeetiForm() {
                     placeholder="Descripción Meeti"
                 />
 
+                <CategoryFormField />
                 <CommunityFormField />
 
                 <FormLabel htmlFor="availableSeats">Cupo</FormLabel>
