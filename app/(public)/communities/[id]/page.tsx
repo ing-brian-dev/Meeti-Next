@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: PageProps<'/communities/[id]'
     const { id } = await params;
     const community = await communityService.getCommunityDetails(id);
     return {
-        title: generatePageTitle(`Comunidad: ${community.data.id}`)
+        title: generatePageTitle(`Comunidad: ${community.data.name}`)
     }
 }
 
