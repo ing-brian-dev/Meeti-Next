@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "drizzle:seed" : "tsx ./src/db/seed"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
