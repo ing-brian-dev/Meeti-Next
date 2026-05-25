@@ -36,11 +36,18 @@ export default function CreateMeeti() {
   const { isPending } = useSession();
   if (isPending) return 'Cargando...';
 
+  const onSubmit = async (data: MeetiInput) => {
+    console.log(data);
+  }
+
   return (
     <FormProvider
       {...methods}
     >
-      <Form>
+      <Form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        noValidate
+      >
         <MeetiForm />
         <FormSubmit
           value='Creat Meeti'

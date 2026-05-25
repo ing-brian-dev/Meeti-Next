@@ -3,7 +3,7 @@ import z from "zod";
 export const GeoCodeSchema = z.object({
     LongLabel: z.string(),
     City: z.string(),
-    CountryCode: z.string(),
+    CntryName: z.string(),
     InputX: z.number(),
     InputY: z.number(),
 });

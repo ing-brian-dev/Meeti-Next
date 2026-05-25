@@ -3,10 +3,12 @@ import { Icon } from 'leaflet';
 import type { Marker as TMarker, LatLngTuple } from 'leaflet';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { FormInput, FormLabel } from '@/src/shared/components/forms';
+import { FormError, FormInput, FormLabel } from '@/src/shared/components/forms';
+import { useFormContext } from 'react-hook-form';
+import { GeoCodeSchema, MeetiInput } from '../schemas/meetiSchema';
 
 function CenterMap({ coordinates }: { coordinates: LatLngTuple }) {
-    const map = useMap()
+    const map = useMap();
     useEffect(() => {
         map.setView([coordinates[0], coordinates[1]]);
     }, [coordinates, map]);
@@ -18,13 +20,15 @@ const markerIcon = new Icon({
     shadowUrl: "/marker-shadow.png",
     iconSize: [25, 41],
     iconAnchor: [12, 41],
-})
+});
 
 
 export default function LocationPicker() {
 
-    const lat = 25.776311
-    const lng = -80.3121477
+    const { register, getValues, setValue, formState: { errors }, clearErrors } = useFormContext<MeetiInput>();
+
+    const lat = getValues('location.lat');
+    const lng = getValues('location.lng');
 
     const [coordinates, setCoordinates] = useState<LatLngTuple>([lat, lng]);
 
@@ -33,10 +37,16 @@ export default function LocationPicker() {
     const GEOCODE_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=ES&location=";
 
     const reverseGeocoding = async (positionTuple: LatLngTuple) => {
-        const url = GEOCODE_URL + `${positionTuple[1]},${positionTuple[0]}`
+        const url = GEOCODE_URL + `${positionTuple[1]},${positionTuple[0]}`;
         const data = await (await fetch(url)).json();
+        const location = GeoCodeSchema.parse(data.address);
 
-
+        setValue('location.address', location.LongLabel);
+        setValue('location.city',location.City);
+        setValue('location.country',location.CntryName);
+        setValue('location.lat',location.InputY);
+        setValue('location.lng',location.InputX);
+        clearErrors('location.address');
     }
 
 
@@ -51,8 +61,6 @@ export default function LocationPicker() {
             }
         },
     }), [reverseGeocoding]);
-
-
 
     return (
         <>
@@ -81,8 +89,11 @@ export default function LocationPicker() {
                 placeholder="Dirección Evento"
                 className="disabled:opacity-50 "
                 disabled
+                {...register('location.address')}
             />
-
+            {'location' in errors && errors.location?.address && (
+                <FormError>{errors.location.address.message}</FormError>
+            )}
         </>
     )
 }
