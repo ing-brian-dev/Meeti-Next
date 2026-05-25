@@ -13,9 +13,11 @@ class MeetiService {
 
     async createMeeti(data: MeetiInput, user: User) {
         const community = await this.communityRepository.findById(data.communityId);
-        if (!community || !CommunityPolicy.isAdmin(user, community)){
+        if (!community || !CommunityPolicy.isAdmin(user, community)) {
             throw new Error('No tienes Permisos.');
         }
+
+        await this.meetiRepository.insert({...data, createdBy: user.id });
     }
 }
 

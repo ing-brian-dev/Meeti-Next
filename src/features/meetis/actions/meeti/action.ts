@@ -22,4 +22,9 @@ export async function createMeetiAction(input: MeetiInput) {
     }
 
     await meetiService.createMeeti(data.data, session.user);
+
+    return {
+        error: '',
+        success: 'Meeti Creado Correctamente!'
+    }
 }

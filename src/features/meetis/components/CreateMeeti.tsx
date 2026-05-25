@@ -7,6 +7,8 @@ import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { MeetiInput, MeetiSchema } from "../schemas/meetiSchema"
 import { createMeetiAction } from "../actions/meeti/action"
+import toast from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 export default function CreateMeeti() {
 
@@ -38,7 +40,13 @@ export default function CreateMeeti() {
   if (isPending) return 'Cargando...';
 
   const onSubmit = async (data: MeetiInput) => {
-    await createMeetiAction(data);
+    const { error, success } = await createMeetiAction(data);
+    if(error) {toast.error(error)}
+    if(success){
+      toast.success(success);
+      methods.reset();
+      redirect('/dashboard/meetis');
+    }
   }
 
   return (

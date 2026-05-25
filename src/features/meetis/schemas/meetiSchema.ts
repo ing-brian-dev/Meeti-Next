@@ -13,7 +13,7 @@ const BaseSchema = z.object({
     details: z.string().min(50, { message: "Añade más detalles al Evento" }),
     image: z.url({ protocol: /^https?$/, hostname: z.regexes.domain, error: 'La imagen es obligatoria' }),
     communityId: z.uuid({ message: "Elige Una Comunidad" }),
-    availableSeats: z.number().min(1, { error: 'El Cupo debe ser Mayor a 0' }),
+    availableSeats: z.number({error: 'El cupo debe de ser numero.'}).min(1, { error: 'El Cupo debe ser Mayor a 0' }),
     date: z.iso.date({ message: "Añade una Fecha" }),
     time: z.string().min(1, { message: "La Hora es Obligatoria" }),
     categoryId: z.uuid({ message: "Elige Una Categoría" }),
