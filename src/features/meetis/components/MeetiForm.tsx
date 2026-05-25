@@ -1,12 +1,16 @@
-import { FormInput, FormLabel, FormTextArea, FormToggle } from "@/src/shared/components/forms";
+import { FormError, FormInput, FormLabel, FormTextArea, FormToggle } from "@/src/shared/components/forms";
 import CommunityFormField from "./CommunityFormField";
 import CategoryFormField from "./CategoryFormField";
 import dynamic from "next/dynamic";
+import { useFormContext } from "react-hook-form";
+import { MeetiInput } from "../schemas/meetiSchema";
 
 //upload the compontent when its is necesary without server side rendering
 const DynamicLocationPicker = dynamic(() => import('./LocationPicker'), { ssr: false })
 
 export default function MeetiForm() {
+
+    const { register, watch, formState: { errors }, setValue } = useFormContext<MeetiInput>();
 
     return (
         <>
@@ -18,13 +22,17 @@ export default function MeetiForm() {
                     id="title"
                     type="text"
                     placeholder="Titulo Meeti"
+                    {...register('title')}
                 />
+                {errors.title && <FormError>{errors.title.message}</FormError>}
 
                 <FormLabel htmlFor="details">Detalles Meeti</FormLabel>
                 <FormTextArea
                     id="details"
                     placeholder="Descripción Meeti"
+                    {...register('details')}
                 />
+                {errors.details && <FormError>{errors.details.message}</FormError>}
 
                 <CategoryFormField />
                 <CommunityFormField />
@@ -35,7 +43,9 @@ export default function MeetiForm() {
                     min={1}
                     id="availableSeats"
                     placeholder="Cupo Disponible"
+                    {...register('availableSeats')}
                 />
+                {errors.availableSeats && <FormError>{errors.availableSeats.message}</FormError>}
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div className="space-y-3">
@@ -43,7 +53,9 @@ export default function MeetiForm() {
                         <FormInput
                             type="date"
                             id="date"
+                            {...register('date')}
                         />
+                        {errors.date && <FormError>{errors.date.message}</FormError>}
 
                     </div>
                     <div className="space-y-3">
@@ -52,7 +64,10 @@ export default function MeetiForm() {
                             type="time"
                             step={1800}
                             id="time"
+                            {...register('time')}
                         />
+                        {errors.time && <FormError>{errors.time.message}</FormError>}
+
                     </div>
                 </div>
 

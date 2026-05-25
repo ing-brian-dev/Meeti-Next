@@ -14,7 +14,7 @@ export const meeti = pgTable('meetis', {
   categoryId: uuid('category_id').notNull(),
   createdBy: text('created_by').references(() => users.id, {onDelete: 'cascade'}).notNull(),
   virtual: boolean('virtual').default(false).notNull()
-})
+});
 
 export const meetiLocations = pgTable('meeti_locations', {
   id: uuid('id').primaryKey().defaultRandom(),
