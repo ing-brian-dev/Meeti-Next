@@ -4,7 +4,7 @@ import type { InputHTMLAttributes } from "react";
 type FormSubmitProps = InputHTMLAttributes<HTMLInputElement>
 
 
-export default function FormSubmit(props: FormSubmitProps) {
+export function FormSubmit(props: FormSubmitProps) {
     const { className } = props;
     return (
         <input

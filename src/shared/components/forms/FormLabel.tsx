@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 type FormLabelProps = LabelHTMLAttributes<HTMLLabelElement>
 
-export default function FormLabel(props: FormLabelProps) {
+export function FormLabel(props: FormLabelProps) {
 
     const { children, className } = props;
 

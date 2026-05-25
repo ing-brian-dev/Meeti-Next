@@ -26,7 +26,9 @@ export default function CommunityForm() {
             <FormLabel>
                 Imagen Comunidad
             </FormLabel>
-            <UploadImage />
+            <UploadImage 
+                uploadedImageLabel="Imagen Publicada comunidad: "
+            />
             <FormLabel
                 htmlFor="description"
             >
