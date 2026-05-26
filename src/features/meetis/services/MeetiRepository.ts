@@ -7,6 +7,7 @@ export interface IMeetiRepository {
     insert(data: InsertMeeti): Promise<void>;
     findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
     findById(id: string): Promise<SelectMeeti | null>;
+    updateById(data: InsertMeeti): Promise<void>
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -60,6 +61,10 @@ class MeetiRepository implements IMeetiRepository {
             }
         });
         return result ?? null;
+    }
+
+    async updateById(data: InsertMeeti) {
+        
     }
 }
 

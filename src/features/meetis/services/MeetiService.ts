@@ -58,11 +58,25 @@ class MeetiService {
                 isAdmin: MeetiPolicy.isAdmin(user, meeti)
             },
             permissions: {
-                canViewAttendes: MeetiPolicy.canViewAttendes(user,meeti),
-                canEdit: MeetiPolicy.canEdit(user,meeti),
-                canDelete: MeetiPolicy.canDelete(user,meeti),
+                canViewAttendes: MeetiPolicy.canViewAttendes(user, meeti),
+                canEdit: MeetiPolicy.canEdit(user, meeti),
+                canDelete: MeetiPolicy.canDelete(user, meeti),
             }
         }
+    }
+
+    async updateMeeti(meetiId: string, data: MeetiInput, user: User) {
+        const community = await this.communityRepository.findById(data.communityId);
+        if (!community || !CommunityPolicy.isAdmin(user, community)) {
+            throw new Error('No tienes Permisos.');
+        }
+
+        const meeti = await this.getMeetiWithPermissions(meetiId, user);
+        if (meeti.permissions.canEdit) {
+            throw new Error('No Autorizado.')
+        }
+
+        await this.meetiRepository.updateById({ ...data, createdBy: user.id })
     }
 }
 
