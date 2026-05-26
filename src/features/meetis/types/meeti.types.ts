@@ -11,5 +11,9 @@ export type SelectBasicMeeti = InferSelectModel<typeof meeti>;
 export type SelectMeetiLocation = InferSelectModel<typeof meeti>;
 
 export type InsertMeeti = InsertBasicMeeti & {
-    location? : Omit<InsertMeetiLocation, 'meetiId' | 'id'>
-} 
+    location?: Omit<InsertMeetiLocation, 'meetiId' | 'id'>;
+}
+
+export type SelectMeeti = SelectBasicMeeti & {
+    location?: SelectMeetiLocation;
+}
