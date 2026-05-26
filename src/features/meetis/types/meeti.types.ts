@@ -8,12 +8,12 @@ export type InsertBasicMeeti = InferInsertModel<typeof meeti>;
 export type InsertMeetiLocation = InferInsertModel<typeof meetiLocations>;
 
 export type SelectBasicMeeti = InferSelectModel<typeof meeti>;
-export type SelectMeetiLocation = InferSelectModel<typeof meeti>;
+export type SelectMeetiLocation = InferSelectModel<typeof meetiLocations>;
 
 export type InsertMeeti = InsertBasicMeeti & {
     location?: Omit<InsertMeetiLocation, 'meetiId' | 'id'>;
 }
 
 export type SelectMeeti = SelectBasicMeeti & {
-    location?: SelectMeetiLocation;
+    location?: SelectMeetiLocation | null;
 }

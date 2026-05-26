@@ -41,6 +41,29 @@ class MeetiService {
 
         return enriched;
     }
+
+    async getMeetiById(meetiId: string) {
+        const meeti = await this.meetiRepository.findById(meetiId);
+        if (!meeti) {
+            throw new Error('Meeti No Encontrado.');
+        }
+        return meeti;
+    }
+
+    async getMeetiWithPermissions(meetiId: string, user: User) {
+        const meeti = await this.getMeetiById(meetiId);
+        return {
+            data: meeti,
+            context: {
+                isAdmin: MeetiPolicy.isAdmin(user, meeti)
+            },
+            permissions: {
+                canViewAttendes: MeetiPolicy.canViewAttendes(user,meeti),
+                canEdit: MeetiPolicy.canEdit(user,meeti),
+                canDelete: MeetiPolicy.canDelete(user,meeti),
+            }
+        }
+    }
 }
 
 export const meetiService = new MeetiService(meetiRepository, communityRepository)

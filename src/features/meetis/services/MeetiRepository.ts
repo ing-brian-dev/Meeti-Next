@@ -5,7 +5,8 @@ import { format } from "date-fns";
 
 export interface IMeetiRepository {
     insert(data: InsertMeeti): Promise<void>;
-    findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>
+    findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
+    findById(id: string): Promise<SelectMeeti | null>;
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -47,6 +48,18 @@ class MeetiRepository implements IMeetiRepository {
             }
         });
         return result;
+    }
+
+    async findById(id: string) {
+        const result = await db.query.meeti.findFirst({
+            where: {
+                id
+            },
+            with: {
+                location: true
+            }
+        });
+        return result ?? null;
     }
 }
 
