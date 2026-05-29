@@ -22,13 +22,12 @@ const markerIcon = new Icon({
     iconAnchor: [12, 41],
 });
 
-
 export default function LocationPicker() {
 
     const { register, getValues, setValue, formState: { errors }, clearErrors } = useFormContext<MeetiInput>();
 
-    const lat = getValues('location.lat');
-    const lng = getValues('location.lng');
+    const lat = getValues('location.lat') ?? 25.776311;
+    const lng = getValues('location.lng') ?? -80.3121477;
 
     const [coordinates, setCoordinates] = useState<LatLngTuple>([lat, lng]);
 
@@ -42,10 +41,10 @@ export default function LocationPicker() {
         const location = GeoCodeSchema.parse(data.address);
 
         setValue('location.address', location.LongLabel);
-        setValue('location.city',location.City);
-        setValue('location.country',location.CntryName);
-        setValue('location.lat',location.InputY);
-        setValue('location.lng',location.InputX);
+        setValue('location.city', location.City);
+        setValue('location.country', location.CntryName);
+        setValue('location.lat', location.InputY);
+        setValue('location.lng', location.InputX);
         clearErrors('location.address');
     }
 

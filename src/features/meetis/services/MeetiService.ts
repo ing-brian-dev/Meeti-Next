@@ -76,7 +76,7 @@ class MeetiService {
             throw new Error('No Autorizado.')
         }
 
-        await this.meetiRepository.updateById({ ...data, createdBy: user.id })
+        await this.meetiRepository.updateById({ ...data, createdBy: user.id }, meetiId)
     }
 }
 

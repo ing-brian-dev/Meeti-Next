@@ -1,13 +1,14 @@
 import { db } from "@/src/db";
-import { InsertMeeti, SelectMeeti } from "../types/meeti.types";
+import { InsertMeeti, InsertMeetiLocation, SelectMeeti } from "../types/meeti.types";
 import { meeti, meetiLocations } from "@/src/db/schema";
 import { format } from "date-fns";
+import { eq } from "drizzle-orm";
 
 export interface IMeetiRepository {
     insert(data: InsertMeeti): Promise<void>;
     findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
     findById(id: string): Promise<SelectMeeti | null>;
-    updateById(data: InsertMeeti): Promise<void>
+    updateById(data: InsertMeeti, meetiId: string): Promise<void>
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -18,12 +19,7 @@ class MeetiRepository implements IMeetiRepository {
             .returning();
 
         if (!insertedMeeti.virtual && data.location) {
-            await db
-                .insert(meetiLocations)
-                .values({
-                    meetiId: insertedMeeti.id,
-                    ...data.location
-                });
+            await this.inserLocation({ meetiId: insertedMeeti.id, ...data.location });
         }
     }
 
@@ -63,8 +59,39 @@ class MeetiRepository implements IMeetiRepository {
         return result ?? null;
     }
 
-    async updateById(data: InsertMeeti) {
-        
+    async inserLocation(data: InsertMeetiLocation) {
+        await db
+            .insert(meetiLocations)
+            .values(data);
+    }
+
+    async updateById(data: InsertMeeti, meetiId: string) {
+        const [updatedMeeti] = await db
+            .update(meeti)
+            .set(data)
+            .where(
+                eq(meeti.id, meetiId)
+            )
+            .returning();
+
+        if (!updatedMeeti.virtual && data.location) {
+            const locationExists = await db.query.meetiLocations.findFirst({
+                where: {
+                    meetiId: updatedMeeti.id
+                }
+            });
+
+            if (locationExists) {
+                await db
+                    .update(meetiLocations)
+                    .set(data.location)
+                    .where(
+                        eq(meetiLocations.meetiId, updatedMeeti.id)
+                    );
+            } else {
+                await this.inserLocation({ meetiId: updatedMeeti.id, ...data.location });
+            }
+        }
     }
 }
 
