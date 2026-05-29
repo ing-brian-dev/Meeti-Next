@@ -59,11 +59,13 @@ export default async function MeetisPage() {
                                     <div
                                         className="min-w-0 flex-auto"
                                     >
-                                        <a
+                                        <Link
+                                            href={`/meetis/${id}`}
                                             className="hover:underline font-bold text-lg"
+                                            target="_blank"
                                         >
                                             {title}
-                                        </a>
+                                        </Link>
                                         <p
                                             className="text-gray-600 text-sm"
                                         >
