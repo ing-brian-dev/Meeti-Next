@@ -1,5 +1,5 @@
 import { db } from "@/src/db";
-import { InsertMeeti, InsertMeetiLocation, SelectMeeti } from "../types/meeti.types";
+import { FullMeeti, InsertMeeti, InsertMeetiLocation, SelectMeeti } from "../types/meeti.types";
 import { meeti, meetiLocations } from "@/src/db/schema";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
@@ -8,6 +8,7 @@ export interface IMeetiRepository {
     insert(data: InsertMeeti): Promise<void>;
     findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
     findById(id: string): Promise<SelectMeeti | null>;
+    findFullById(id: string): Promise<FullMeeti | null>;
     updateById(data: InsertMeeti, meetiId: string): Promise<void>
 }
 
@@ -63,6 +64,21 @@ class MeetiRepository implements IMeetiRepository {
         await db
             .insert(meetiLocations)
             .values(data);
+    }
+
+    async findFullById(id: string) {
+        const result = await db.query.meeti.findFirst({
+            where: {
+                id
+            },
+            with: {
+                location: true,
+                category: true,
+                community: true,
+                admin: true
+            }
+        });
+        return result ?? null;
     }
 
     async updateById(data: InsertMeeti, meetiId: string) {
