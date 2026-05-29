@@ -44,7 +44,7 @@ export default async function CommunityPage(props: PageProps<'/communities/[id]'
                             />
                         </div>
                         <Heading
-                            classname='text-center'
+                            className='text-center'
                         >
                             {community.data.name}
                         </Heading>

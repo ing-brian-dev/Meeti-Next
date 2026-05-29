@@ -5,10 +5,10 @@ import clsx from "clsx";
 type HeadingProps = {
     children: React.ReactNode;
     level?: 1 | 2 | 3 | 4 | 5 | 6;
-    classname ?: string;
+    className ?: string;
 }
 
-export default function Heading({ children, level = 1, classname }: HeadingProps) {
+export default function Heading({ children, level = 1, className }: HeadingProps) {
 
     // ElementType allows us to use a string like 'h1', 'h2', etc. 
     // to create the appropriate heading element
@@ -27,7 +27,7 @@ export default function Heading({ children, level = 1, classname }: HeadingProps
 
     return (
         <Tag
-            className={clsx("font-black uppercase", sizeMap[level], classname)}
+            className={clsx("font-black uppercase", sizeMap[level], className)}
         >
             {children}
         </Tag>

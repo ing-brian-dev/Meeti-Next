@@ -46,5 +46,9 @@ export async function editMeetiAction(input: MeetiInput, meetiId: string) {
         }
     }
 
-    await meetiService.updateMeeti(meetiId,data.data,session.user);
+    await meetiService.updateMeeti(meetiId, data.data, session.user);
+    return {
+        error: '',
+        success: 'Meeti Actualizado Correctamente!'
+    }
 }
