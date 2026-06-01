@@ -20,10 +20,14 @@ export type SelectMeeti = SelectBasicMeeti & {
     location?: SelectMeetiLocation | null;
 }
 
-
 export type FullMeeti = SelectBasicMeeti & {
     location?: SelectMeetiLocation | null;
     category: SelectCategory;
     community: SelectCommunity;
     admin: User
+}
+
+export type MeetiPermissions = {
+    canConfirm: boolean;
+    canCancel: boolean;
 }

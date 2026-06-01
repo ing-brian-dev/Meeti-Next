@@ -1,3 +1,4 @@
+import { db } from "@/src/db";
 
 export interface IMeetiAttendeesRepository {
     isUserAttending(userId: string, meetiId: string): Promise<boolean>;
@@ -5,7 +6,20 @@ export interface IMeetiAttendeesRepository {
 
 class MeetiAttendeesRepository implements IMeetiAttendeesRepository {
     async isUserAttending(userId: string, meetiId: string) {
-        return true;
+        const result = await db.query.meetiAttendees.findFirst({
+            where: {
+                AND : [
+                    {
+                        meetiId
+                    },
+                    {
+                        userId
+                    }
+                ]
+            }
+        });
+
+        return !!result;
     }
 }
 
