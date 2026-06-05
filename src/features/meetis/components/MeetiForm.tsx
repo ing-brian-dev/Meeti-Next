@@ -36,7 +36,7 @@ export default function MeetiForm() {
                 {errors.details && <FormError>{errors.details.message}</FormError>}
 
                 <FormLabel>Imagen de Meeti</FormLabel>
-                <UploadImage 
+                <UploadImage
                     uploadedImageLabel="Imagen publicada Meeti: "
                 />
                 <CategoryFormField />
@@ -48,7 +48,7 @@ export default function MeetiForm() {
                     min={1}
                     id="availableSeats"
                     placeholder="Cupo Disponible"
-                    {...register('availableSeats')}
+                    {...register('availableSeats', { valueAsNumber: true })}
                 />
                 {errors.availableSeats && <FormError>{errors.availableSeats.message}</FormError>}
 
