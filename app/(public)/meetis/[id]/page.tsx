@@ -44,6 +44,8 @@ export default async function MeetiPage(props: PageProps<'/meetis/[id]'>) {
 
     const { id } = await props.params;
     const meeti = await meetiService.getMeetiWithDetails(id,session?.user);
+
+    if(meeti.context.isPastMeeti) throw new Error('Meeti no disponible');
     const { virtual: isVirtual, location } = meeti.data;
 
     return (

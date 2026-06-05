@@ -12,6 +12,7 @@ export class MeetiAttendeePolicy {
         // - The event has already happened
         // - You are the administrator/owner
         // - You are already attending
+        if(MeetiPolicy.isPastMeeti(meeti)) return false
         if (MeetiPolicy.isAdmin(user, meeti)) return false
         if (isAttending) return false
 
@@ -26,6 +27,7 @@ export class MeetiAttendeePolicy {
         // - The event has already happened
         // - You are the administrator/owner
         // - you aren't assistance
+        if(MeetiPolicy.isPastMeeti(meeti)) return false
         if (MeetiPolicy.isAdmin(user, meeti)) return false
         if (!isAttending) return false
 

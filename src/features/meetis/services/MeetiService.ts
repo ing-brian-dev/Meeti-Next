@@ -28,9 +28,11 @@ class MeetiService {
         const upcomingMeetis = await meetiRepository.findUpcomingByUserId(user.id);
 
         const enriched = await Promise.all(upcomingMeetis.map(async (meeti) => {
+
+            const attendanceCount = await this.meetiAttendeesRespository.findAttendeesCount(meeti.id);
             return {
                 data: meeti,
-                attendanceCount: 0,
+                attendanceCount,
                 context: {
                     isAdmin: MeetiPolicy.isAdmin(user, meeti)
                 },
@@ -55,8 +57,6 @@ class MeetiService {
 
     async getMeetiWithDetails(meetiId: string, user?: User) {
         const meeti = await this.meetiRepository.findFullById(meetiId);
-        console.log(user);
-        
 
         if (!meeti) {
             throw new Error('Meeti no encontrado.');
@@ -68,10 +68,13 @@ class MeetiService {
 
         const isAttending = await this.meetiAttendeesRespository.isUserAttending(user.id, meeti.id);
         const isAdmin = MeetiPolicy.isAdmin(user, meeti);
+        const isPastMeeti = MeetiPolicy.isPastMeeti(meeti);
         return {
             data: meeti,
             context: {
-                isAdmin
+                isAdmin,
+                isPastMeeti,
+                isAttending
             },
             permissions: {
                 canConfirm: MeetiAttendeePolicy.canConfirm(user, meeti, isAttending),
