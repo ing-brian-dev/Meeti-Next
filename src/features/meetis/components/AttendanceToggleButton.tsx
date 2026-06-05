@@ -15,7 +15,7 @@ export default function AttendanceToggleButton({ meetiId, permissions }: Attenda
     const [canConfirm, setCanConfirm] = useState(permissions.canCancel);
 
     const handleClick = async () => {
-        const result = await toggleAttendance(meetiId);
+        const result = await toggleAttendance(meetiId, canConfirm);
         if (result?.success) {
             toast.success(result?.success);
             setCanConfirm(result?.newPermissions?.canConfirm);

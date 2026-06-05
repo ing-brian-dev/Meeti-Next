@@ -1,9 +1,21 @@
 "use server"
 
+import { ratelimit } from "@/src/lib/limiter";
 import { ForgotPasswordInput, ForgotPasswordSchema, SetPasswordInput, SetPasswordSchema, SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
+import { getClientIp } from "@/src/shared/utils/ip";
+import { getMinutesDiffFromNow } from "@/src/shared/utils/date";
 
 export async function singUpAction(input: SingUpInput) {
+
+    const ip = await getClientIp();
+    const { success, reset } = await ratelimit.limit(ip);
+
+    if (!success) return {
+        error: `Limite alcanzado. Intenta de nuevo en ${getMinutesDiffFromNow(reset)} Minutos`,
+        success: ''
+    }
+
     const data = SingUpSchema.safeParse(input);
 
     if (!data.success) {
@@ -18,6 +30,15 @@ export async function singUpAction(input: SingUpInput) {
 }
 
 export async function singInAction(input: SingInInput) {
+
+    const ip = await getClientIp();
+    const { success, reset } = await ratelimit.limit(ip);
+
+    if (!success) return {
+        error: `Limite alcanzado. Intenta de nuevo en ${getMinutesDiffFromNow(reset)} Minutos`,
+        success: ''
+    }
+
     const data = SingInSchema.safeParse(input);
     if (!data.success) {
         return {
@@ -31,6 +52,15 @@ export async function singInAction(input: SingInInput) {
 }
 
 export async function forgotPasswordAction(input: ForgotPasswordInput) {
+
+    const ip = await getClientIp();
+    const { success, reset } = await ratelimit.limit(ip);
+
+    if (!success) return {
+        error: `Limite alcanzado. Intenta de nuevo en ${getMinutesDiffFromNow(reset)} Minutos`,
+        success: ''
+    }
+    
     const data = ForgotPasswordSchema.safeParse(input);
 
     if (!data.success) {
