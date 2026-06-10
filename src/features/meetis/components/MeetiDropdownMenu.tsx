@@ -31,11 +31,12 @@ export default function MeetiDropdownMenu({ meeti }: MeetiDropdownMenuProps) {
           </Link>
         </MenuItem>
         <MenuItem>
-          <a
+          <Link
+            href={`/dashboard/meetis/${meeti.id}/attendees`}
             className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/5"
           >
             Ver Asistentes <span className="sr-only">, {meeti.title}</span>
-          </a>
+          </Link>
         </MenuItem>
         <MenuItem>
           <Link
