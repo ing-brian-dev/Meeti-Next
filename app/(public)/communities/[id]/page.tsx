@@ -1,4 +1,5 @@
 import CommunityActionsPanel from '@/src/features/communities/components/CommunityActionsPanel';
+import UpcomingCommunityMeetis from '@/src/features/communities/components/UpcomingCommunityMeetis';
 import { communityService } from '@/src/features/communities/services/CommunityService';
 import { getServerSession } from '@/src/lib/auth-server';
 import Heading from '@/src/shared/components/typography/Heading';
@@ -64,9 +65,11 @@ export default async function CommunityPage(props: PageProps<'/communities/[id]'
                     </div>
                 </div>
             </main>
-            <div className="grid grid-cols-1 lg:grid-cols-3 items-start gap-10 max-w-7xl mx-auto mt-10 space-y-5">
-                {/* Próximos Meetis Aquí */}
-            </div>
+
+            <UpcomingCommunityMeetis 
+                communityId={id}
+            />
+
         </>
     )
 }
