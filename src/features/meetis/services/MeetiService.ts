@@ -62,13 +62,22 @@ class MeetiService {
             throw new Error('Meeti no encontrado.');
         }
 
+        const isPastMeeti = MeetiPolicy.isPastMeeti(meeti);
+
         if (!user) {
-            throw new Error('Usuario');
+            return {
+                data: meeti,
+                context: {
+                    isAdmin: false,
+                    isPastMeeti,
+                    isAttending: false
+                },
+                permissions: null
+            }
         }
 
         const isAttending = await this.meetiAttendeesRespository.isUserAttending(user.id, meeti.id);
         const isAdmin = MeetiPolicy.isAdmin(user, meeti);
-        const isPastMeeti = MeetiPolicy.isPastMeeti(meeti);
         return {
             data: meeti,
             context: {
@@ -110,6 +119,20 @@ class MeetiService {
         }
 
         await this.meetiRepository.updateById({ ...data, createdBy: user.id }, meetiId)
+    }
+
+    async getMeetiAttendees(meetiId: string, user: User) {
+        const meeti = await this.getMeetiById(meetiId);
+
+        if (!MeetiPolicy.canViewAttendes(user, meeti)) {
+            throw new Error('No autorizado');
+        }
+
+        const attendees = await this.meetiAttendeesRespository.findAttendeesByMeetiId(meeti.id);
+        return {
+            meeti,
+            attendees
+        }
     }
 }
 

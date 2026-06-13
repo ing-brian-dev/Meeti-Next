@@ -1,12 +1,14 @@
 import { db } from "@/src/db";
 import { meetiAttendees } from "@/src/db/schema";
 import { and, count, eq } from "drizzle-orm";
+import { SelectMeetiAttendeeWithUser } from "../types/meeti.types";
 
 export interface IMeetiAttendeesRepository {
     isUserAttending(userId: string, meetiId: string): Promise<boolean>;
     insert(userId: string, meetiId: string): Promise<void>;
     remove(userId: string, meetiId: string): Promise<void>;
     findAttendeesCount(meetiId: string): Promise<number>;
+    findAttendeesByMeetiId(meetiId: string): Promise<SelectMeetiAttendeeWithUser[]>;
 }
 
 class MeetiAttendeesRepository implements IMeetiAttendeesRepository {
@@ -51,6 +53,25 @@ class MeetiAttendeesRepository implements IMeetiAttendeesRepository {
             .from(meetiAttendees)
             .where(eq(meetiAttendees.meetiId, meetiId));
         return result.total
+    }
+
+    async findAttendeesByMeetiId(meetiId: string) {
+        const result = await db.query.meetiAttendees.findMany({
+            where: {
+                meetiId
+            },
+            with: {
+                user: {
+                    columns: {
+                        id: true,
+                        name: true,
+                        email: true
+                    }
+                }
+            }
+        });
+
+        return result;
     }
 }
 

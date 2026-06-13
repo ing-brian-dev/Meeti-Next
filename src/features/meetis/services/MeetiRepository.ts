@@ -1,5 +1,5 @@
 import { db } from "@/src/db";
-import { FullMeeti, InsertMeeti, InsertMeetiLocation, SelectMeeti } from "../types/meeti.types";
+import { FullMeeti, InsertMeeti, InsertMeetiLocation, SelectMeeti, SelectMeetiAttendeeWithUser } from "../types/meeti.types";
 import { meeti, meetiLocations } from "@/src/db/schema";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
@@ -9,7 +9,9 @@ export interface IMeetiRepository {
     findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
     findById(id: string): Promise<SelectMeeti | null>;
     findFullById(id: string): Promise<FullMeeti | null>;
-    updateById(data: InsertMeeti, meetiId: string): Promise<void>
+    updateById(data: InsertMeeti, meetiId: string): Promise<void>;
+    findAttendeesByMeetiId(meetiId: string): Promise<SelectMeetiAttendeeWithUser[]>;
+    findUpcomingByCommunity(communityId: string): Promise<SelectMeeti[]>;
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -108,6 +110,32 @@ class MeetiRepository implements IMeetiRepository {
                 await this.inserLocation({ meetiId: updatedMeeti.id, ...data.location });
             }
         }
+    }
+    async findAttendeesByMeetiId(meetiId: string) {
+        return await db.query.meetiAttendees.findMany({
+            where: {
+                meetiId
+            },
+            with: {
+                user: true
+            }
+        });
+    }
+
+    async findUpcomingByCommunity(communityId: string) {
+        const today = format(new Date(), 'yyyy-MM-dd')
+        return db.query.meeti.findMany({
+            where: {
+                communityId,
+                date: {
+                    gte: today
+                }
+            },
+            limit: 3,
+            orderBy: {
+                date: 'asc'
+            }
+        })
     }
 }
 

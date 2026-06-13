@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export async function generateMetadata({ params }: PageProps<'/meetis/[id]'>): Promise<Metadata> {
     const { id } = await params;
-    
+
     const meeti = await meetiService.getMeetiById(id);
 
     return {
@@ -43,9 +43,9 @@ export default async function MeetiPage(props: PageProps<'/meetis/[id]'>) {
     const { session } = await requireAuth();
 
     const { id } = await props.params;
-    const meeti = await meetiService.getMeetiWithDetails(id,session?.user);
+    const meeti = await meetiService.getMeetiWithDetails(id, session?.user);
 
-    if(meeti.context.isPastMeeti) throw new Error('Meeti no disponible');
+    if (meeti.context.isPastMeeti) throw new Error('Meeti no disponible');
     const { virtual: isVirtual, location } = meeti.data;
 
     return (
@@ -76,16 +76,25 @@ export default async function MeetiPage(props: PageProps<'/meetis/[id]'>) {
                     </p>
                 </div>
             </nav>
-            {meeti.permissions && !meeti.context.isAdmin && (
-                <div
-                    className="max-w-7xl mx-auto my-10 flex justify-end"
-                >
-                    <AttendanceToggleButton 
+            <div
+                className="max-w-7xl mx-auto my-10 flex justify-end"
+            >
+                {!session?.user && (
+                    <p
+                        className="font-bold border border-t-orange-500 p-2"
+                    >
+                        Confirma tu Asistencia, obteniendo una cuenta. Es Gratis
+                    </p>
+                )}
+                {meeti.permissions && !meeti.context.isAdmin && (
+
+                    <AttendanceToggleButton
                         meetiId={meeti.data.id}
                         permissions={meeti.permissions}
                     />
-                </div>
-            )}
+                )}
+            </div>
+
             <Heading
                 className="text-center mt-10"
             >
