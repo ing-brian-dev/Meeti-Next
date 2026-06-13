@@ -118,6 +118,12 @@ class MeetiService {
         if (!MeetiPolicy.canViewAttendes(user, meeti)) {
             throw new Error('No autorizado');
         }
+
+        const attendees = await this.meetiAttendeesRespository.findAttendeesByMeetiId(meeti.id);
+        return {
+            meeti,
+            attendees
+        }
     }
 }
 
