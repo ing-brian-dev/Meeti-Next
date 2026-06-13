@@ -123,11 +123,18 @@ class MeetiRepository implements IMeetiRepository {
     }
 
     async findUpcomingByCommunity(communityId: string) {
+        const today = format(new Date(), 'yyyy-MM-dd')
         return db.query.meeti.findMany({
             where: {
-                communityId
+                communityId,
+                date: {
+                    gte: today
+                }
             },
-            limit: 3
+            limit: 3,
+            orderBy: {
+                date: 'asc'
+            }
         })
     }
 }
