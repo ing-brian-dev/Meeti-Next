@@ -11,6 +11,7 @@ export interface IMeetiRepository {
     findFullById(id: string): Promise<FullMeeti | null>;
     updateById(data: InsertMeeti, meetiId: string): Promise<void>;
     findAttendeesByMeetiId(meetiId: string): Promise<SelectMeetiAttendeeWithUser[]>;
+    findUpcomingByCommunity(communityId: string): Promise<SelectMeeti[]>;
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -119,6 +120,15 @@ class MeetiRepository implements IMeetiRepository {
                 user: true
             }
         });
+    }
+
+    async findUpcomingByCommunity(communityId: string) {
+        return db.query.meeti.findMany({
+            where: {
+                communityId
+            },
+            limit: 3
+        })
     }
 }
 
