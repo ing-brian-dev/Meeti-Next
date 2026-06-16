@@ -1,5 +1,7 @@
+import { auth } from "@/src/lib/auth";
 import { ProfileInput } from "../schemas/profileSchema";
 import { IProfileRepository, profileRepository } from "./profileRepository";
+import { headers } from "next/headers";
 
 class ProfileService {
     constructor(
@@ -8,7 +10,15 @@ class ProfileService {
 
 
     async updateProfile(data: ProfileInput) {
-        console.log(data);
+        const { name, image, bio } = data;
+        await auth.api.updateUser({
+            body : {
+               name,
+               image,
+               bio 
+            },
+            headers: await headers()
+        })
 
     }
 
