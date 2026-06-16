@@ -1,6 +1,7 @@
 import CommunityActionsPanel from '@/src/features/communities/components/CommunityActionsPanel';
 import UpcomingCommunityMeetis from '@/src/features/communities/components/UpcomingCommunityMeetis';
 import { communityService } from '@/src/features/communities/services/CommunityService';
+import OrganizerCard from '@/src/features/meetis/components/OrganizerCard';
 import { getServerSession } from '@/src/lib/auth-server';
 import Heading from '@/src/shared/components/typography/Heading';
 import { generatePageTitle } from '@/src/shared/utils/metadata';
@@ -61,12 +62,14 @@ export default async function CommunityPage(props: PageProps<'/communities/[id]'
                         </p>
                     </div>
                     <div className="bg-slate-100 p-5 rounded-2xl">
-                        {/* Admin Aquí */}
+                        <OrganizerCard
+                            organizer={community.data.admin}
+                        />
                     </div>
                 </div>
             </main>
 
-            <UpcomingCommunityMeetis 
+            <UpcomingCommunityMeetis
                 communityId={id}
             />
 

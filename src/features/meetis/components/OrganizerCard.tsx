@@ -8,7 +8,7 @@ type OrganizerCardProps = {
 
 
 export default function OrganizerCard({ organizer }: OrganizerCardProps) {
-    const { image, name, id } = organizer;
+    const { image, name, id, bio } = organizer;
     return (
         <>
             <Heading level={2} className='text-center'>Organizador</Heading>
@@ -24,7 +24,7 @@ export default function OrganizerCard({ organizer }: OrganizerCardProps) {
                 </div>
                 <div className="col-span-3 space-y-3">
                     <p className="text-lg font-black">{name}</p>
-                    <p className="text-gray-500 text-sm"></p>
+                    <p className="text-gray-500 text-sm">{bio}</p>
                     {/*TODO:*/}
                     <a
                         className="font-bold text-sm bg-pink-600 p-2  text-white block w-full text-center"

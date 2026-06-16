@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { ProfileInput, ProfileSchema } from "../schemas/profileSchema";
 import { User } from "../../auth/types/auth.types";
 import { updateProfileAction } from "../actions/profile-actions";
+import toast from "react-hot-toast";
 
 type ProfileFormProps = {
     user: User
@@ -27,7 +28,9 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     const { register, handleSubmit, formState: { errors } } = methods;
 
     const onSubmit = async (data: ProfileInput) => {
-        await updateProfileAction(data);
+        const { error, success } = await updateProfileAction(data);
+        if(error) {toast.error(error)}
+        if(success) {toast.success(success)}
     }
 
     return (

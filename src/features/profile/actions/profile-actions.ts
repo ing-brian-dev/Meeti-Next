@@ -14,12 +14,17 @@ export async function updateProfileAction(input: ProfileInput) {
     }
 
     const data = ProfileSchema.safeParse(input);
-    if(!data.success) {
+    if (!data.success) {
         return {
             error: 'Hubo un error...',
             success: ''
         }
-    } 
+    }
 
     await profileService.updateProfile(data.data);
+
+    return {
+        error: '',
+        success: 'Perfil Actualizado Correctamente.'
+    }
 }
