@@ -33,5 +33,13 @@ export const auth = betterAuth({
             });
         }
     },
+    user: {
+        additionalFields: {
+            bio: {
+                type: 'string',
+                required: false
+            }
+        }
+    },
     plugins: [nextCookies()] // Those cookies must always be at the end for Next.js
 });
