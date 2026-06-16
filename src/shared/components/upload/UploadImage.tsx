@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { FormError } from "../forms";
 import { MeetiInput } from "@/src/features/meetis/schemas/meetiSchema";
-import { ProfileInput } from "@/src/features/profile/components/schemas/profileSchema";
+import { ProfileInput } from "@/src/features/profile/schemas/profileSchema";
 
 type UploadImageProps = {
     uploadedImageLabel: string

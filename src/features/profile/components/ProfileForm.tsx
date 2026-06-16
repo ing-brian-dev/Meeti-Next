@@ -4,25 +4,30 @@ import { Form, FormError, FormInput, FormLabel, FormSubmit, FormTextArea } from 
 import UploadImage from "@/src/shared/components/upload/UploadImage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { ProfileInput, ProfileSchema } from "./schemas/profileSchema";
+import { ProfileInput, ProfileSchema } from "../schemas/profileSchema";
+import { User } from "../../auth/types/auth.types";
+import { updateProfileAction } from "../actions/profile-actions";
 
+type ProfileFormProps = {
+    user: User
+}
 
-export default function ProfileForm() {
+export default function ProfileForm({ user }: ProfileFormProps) {
 
     const methods = useForm({
         resolver: zodResolver(ProfileSchema),
         mode: 'all',
         defaultValues: {
-            name: '',
-            bio: '',
-            image: ''
+            name: user.name,
+            bio: user.bio ?? '',
+            image: user.image ?? ''
         }
     });
 
-    const { register,handleSubmit, formState: { errors } } = methods;
+    const { register, handleSubmit, formState: { errors } } = methods;
 
-    const onSubmit = (data: ProfileInput) => {
-        
+    const onSubmit = async (data: ProfileInput) => {
+        await updateProfileAction(data);
     }
 
     return (
@@ -45,6 +50,7 @@ export default function ProfileForm() {
                 <FormTextArea
                     id='bio'
                     placeholder='Añade una Descripción o Biografía'
+                    className="resize-none"
                     {...register('bio')}
                 />
                 {errors.bio && <FormError>{errors.bio.message}</FormError>}
