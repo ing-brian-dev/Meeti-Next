@@ -8,14 +8,17 @@ class ProfileService {
         private profileRepository: IProfileRepository
     ) { }
 
+    async getProfileDetails(profileId: string) {
+        return await this.profileRepository.findFullProfileById(profileId);
+    }
 
     async updateProfile(data: ProfileInput) {
         const { name, image, bio } = data;
         await auth.api.updateUser({
-            body : {
-               name,
-               image,
-               bio 
+            body: {
+                name,
+                image,
+                bio
             },
             headers: await headers()
         })
