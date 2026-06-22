@@ -8,10 +8,18 @@ import { generatePageTitle } from '@/src/shared/utils/metadata';
 import { pluralize } from '@/src/shared/utils/string';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import { cache } from 'react';
+
+const getCommunityDetailsCached = cache(async (id: string) => {
+    const session = await getServerSession();
+    const community = await communityService.getCommunityDetails(id, session?.user);
+
+    return community;
+})
 
 export async function generateMetadata({ params }: PageProps<'/communities/[id]'>): Promise<Metadata> {
     const { id } = await params;
-    const community = await communityService.getCommunityDetails(id);
+    const community = await getCommunityDetailsCached(id);
     return {
         title: generatePageTitle(`Comunidad: ${community.data.name}`)
     }
@@ -20,8 +28,7 @@ export async function generateMetadata({ params }: PageProps<'/communities/[id]'
 export default async function CommunityPage(props: PageProps<'/communities/[id]'>) {
 
     const { id } = await props.params;
-    const session = await getServerSession();
-    const community = await communityService.getCommunityDetails(id, session?.user);
+    const community = await getCommunityDetailsCached(id);
 
     return (
         <>

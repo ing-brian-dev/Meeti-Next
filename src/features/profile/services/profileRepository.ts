@@ -1,10 +1,13 @@
 import { users } from "@/src/db/schema";
-import { User } from "../../auth/types/auth.types";
+import type { User } from "../../auth/types/auth.types";
+import type { FullProfile } from "../types/profile.types";
 import { eq } from "drizzle-orm";
 import { db } from "@/src/db";
+import { format } from "date-fns";
 
 export interface IProfileRepository {
-    findById(userId: string): Promise<User>
+    findById(userId: string): Promise<User>;
+    findFullProfileById(userId: string): Promise<FullProfile | undefined>;
 }
 
 class ProfileRepository implements IProfileRepository {
@@ -16,6 +19,33 @@ class ProfileRepository implements IProfileRepository {
             .limit(1);
 
         return result
+    }
+
+    async findFullProfileById(userId: string) {
+
+        const today = format(new Date(), 'yyyy-MM-dd');
+        const result = await db.query.users.findFirst({
+            where: {
+                id: userId
+            },
+            with: {
+                communities: {
+                    limit: 3
+                },
+                meetis: {
+                    limit: 3,
+                    where: {
+                        date: {
+                            gte: today
+                        }
+                    },
+                    orderBy: {
+                        date: 'asc'
+                    }
+                }
+            }
+        });
+        return result;
     }
 }
 

@@ -7,8 +7,13 @@ export default function RootLayout({
 }>) {
     return (
         <>
-            <Header></Header>
-            {children}
+            <Header />
+                {children}
+            <footer
+                className="text-center py-5"
+            >
+                <p>Derechos Reservados Meeti {new Date().getFullYear()} &copy;</p>
+            </footer>
         </>
     );
 }

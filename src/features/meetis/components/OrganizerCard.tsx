@@ -1,6 +1,7 @@
 import Heading from "@/src/shared/components/typography/Heading";
 import Image from "next/image";
 import { User } from "../../auth/types/auth.types";
+import Link from "next/link";
 
 type OrganizerCardProps = {
     organizer: User
@@ -26,9 +27,12 @@ export default function OrganizerCard({ organizer }: OrganizerCardProps) {
                     <p className="text-lg font-black">{name}</p>
                     <p className="text-gray-500 text-sm">{bio}</p>
                     {/*TODO:*/}
-                    <a
+                    <Link
+                        href={`/profiles/${id}`}
                         className="font-bold text-sm bg-pink-600 p-2  text-white block w-full text-center"
-                    >Ver Perfil</a>
+                    >
+                        Ver Perfil
+                    </Link>
                 </div>
             </div>
         </>

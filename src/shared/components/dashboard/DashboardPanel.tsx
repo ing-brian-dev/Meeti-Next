@@ -13,8 +13,8 @@ import { useSession } from '@/src/lib/auth-client';
 export default function DashboardPanel() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const { isPending } = useSession();
-    if(isPending) return 'Cargando...';
+    const { isPending , data} = useSession();
+    if(isPending || !data) return 'Cargando...';
     
     return (
         <>
@@ -72,7 +72,9 @@ export default function DashboardPanel() {
 
                 <div className=" inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 ">
                     <NotificationsPanel />
-                    <UserMenu />
+                    <UserMenu 
+                        userId={data.user.id}
+                    />
                 </div>
             </div>
         </>
