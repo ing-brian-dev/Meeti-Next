@@ -163,8 +163,14 @@ class AuthService {
         }
     }
 
-    async getSessions(){
+    async getSessions() {
         return auth.api.listSessions({
+            headers: await headers()
+        });
+    }
+
+    async getSession() {
+        return auth.api.getSession({
             headers: await headers()
         });
     }

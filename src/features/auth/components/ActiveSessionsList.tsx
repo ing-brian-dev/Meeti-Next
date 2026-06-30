@@ -4,7 +4,12 @@ import { formatUserAgent } from "@/src/shared/utils/agent";
 
 export default async function ActiveSessionsList() {
 
-    const sessions = await authService.getSessions();
+    const [sessions, currentSession] = await Promise.all([
+        authService.getSessions(),
+        authService.getSession()
+    ]);
+
+    const isCurrentDevice = (currentSessionId: string) => currentSessionId === currentSession?.session.id;
 
     return (
         <>
@@ -23,8 +28,15 @@ export default async function ActiveSessionsList() {
                         key={session.id}
                         className="p-5 shadow-xs flex items-center"
                     >
-                        <div className="">
+                        <div
+                            className="flex gap-2 items-center flex-1"
+                        >
                             <p>{formatUserAgent(session.userAgent!)}</p>
+                            {isCurrentDevice(session.id) && <p
+                                className="text-green-600 font-bold bg-green-200 border border-green-200 rounded-sm inline-block px-3 py-1 uppercase text-xs"
+                            >
+                                Dispositivo actual
+                            </p>}
                         </div>
                     </div>
                 ))}
