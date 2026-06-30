@@ -1,5 +1,6 @@
 import Heading from "@/src/shared/components/typography/Heading";
 import { authService } from "../services/AuthService";
+import { formatUserAgent } from "@/src/shared/utils/agent";
 
 export default async function ActiveSessionsList() {
 
@@ -23,7 +24,7 @@ export default async function ActiveSessionsList() {
                         className="p-5 shadow-xs flex items-center"
                     >
                         <div className="">
-                            <p>{session.userAgent}</p>
+                            <p>{formatUserAgent(session.userAgent!)}</p>
                         </div>
                     </div>
                 ))}
