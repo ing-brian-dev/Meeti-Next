@@ -1,6 +1,7 @@
 import Heading from "@/src/shared/components/typography/Heading";
 import { authService } from "../services/AuthService";
 import { formatUserAgent } from "@/src/shared/utils/agent";
+import RevokeSessionButton from "./RevokeSessionButton";
 
 export default async function ActiveSessionsList() {
 
@@ -29,7 +30,7 @@ export default async function ActiveSessionsList() {
                         className="p-5 shadow-xs flex items-center"
                     >
                         <div
-                            className="flex gap-2 items-center flex-1"
+                            className="lg:flex lg:gap-2 lg:items-center flex-1"
                         >
                             <p>{formatUserAgent(session.userAgent!)}</p>
                             {isCurrentDevice(session.id) && <p
@@ -38,6 +39,7 @@ export default async function ActiveSessionsList() {
                                 Dispositivo actual
                             </p>}
                         </div>
+                        <RevokeSessionButton token={session.token} />
                     </div>
                 ))}
             </div>
