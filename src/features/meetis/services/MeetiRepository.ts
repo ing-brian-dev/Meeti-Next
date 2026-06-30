@@ -7,11 +7,13 @@ import { eq } from "drizzle-orm";
 export interface IMeetiRepository {
     insert(data: InsertMeeti): Promise<void>;
     findUpcomingByUserId(userId: string): Promise<SelectMeeti[]>;
+    findUpcoming(): Promise<SelectMeeti[]>;
     findById(id: string): Promise<SelectMeeti | null>;
     findFullById(id: string): Promise<FullMeeti | null>;
     updateById(data: InsertMeeti, meetiId: string): Promise<void>;
     findAttendeesByMeetiId(meetiId: string): Promise<SelectMeetiAttendeeWithUser[]>;
     findUpcomingByCommunity(communityId: string): Promise<SelectMeeti[]>;
+    findByCategory(categoryId: string): Promise<SelectMeeti[]>;
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -47,6 +49,45 @@ class MeetiRepository implements IMeetiRepository {
                 date: 'asc'
             }
         });
+        return result;
+    }
+
+    async findUpcoming() {
+        const now = new Date();
+        const nowDate = now.toISOString().slice(0, 10);
+        const nowTime = now.toTimeString().slice(0, 5);
+
+        const result = await db.query.meeti.findMany({
+            where: {
+                OR: [
+                    {
+                        date: {
+                            gt: nowDate
+                        }
+                    },
+                    {
+                        AND: [
+                            {
+                                date: {
+                                    eq: nowDate
+                                }
+                            },
+                            {
+                                time: {
+                                    gte: nowTime
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            orderBy: {
+                date: "asc",
+                time: "asc"
+            },
+            limit: 3
+        });
+
         return result;
     }
 
@@ -136,6 +177,24 @@ class MeetiRepository implements IMeetiRepository {
                 date: 'asc'
             }
         })
+    }
+
+    async findByCategory(categoryId: string) {
+        const today = format(new Date(), 'yyyy-MM-dd')
+        const result = await db.query.meeti.findMany({
+            where: {
+                categoryId,
+                date: {
+                    gte: today
+                }
+            },
+            orderBy: {
+                date: 'asc'
+            },
+            limit: 10
+        });
+
+        return result;
     }
 }
 

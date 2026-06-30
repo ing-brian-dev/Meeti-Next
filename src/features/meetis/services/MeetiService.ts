@@ -47,6 +47,10 @@ class MeetiService {
         return enriched;
     }
 
+    async getUpcoming(){
+        return await this.meetiRepository.findUpcoming();
+    }
+
     async getMeetiById(meetiId: string) {
         const meeti = await this.meetiRepository.findById(meetiId);
         if (!meeti) {
@@ -133,6 +137,10 @@ class MeetiService {
             meeti,
             attendees
         }
+    }
+
+    async getMeetisByCategory(categoryId: string) {
+        return await this.meetiRepository.findByCategory(categoryId);
     }
 }
 
