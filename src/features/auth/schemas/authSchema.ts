@@ -5,7 +5,8 @@ export const BaseAuthSchema = z.object({
     email: z.email({ error: 'El email no es válido.' }).min(1, { error: 'El email es requerido.' }),
     password: z.string().trim().min(8, { error: 'El password debe ser mínimo 8 caracteres.' }),
     passwordConfirmation: z.string().trim().min(1, { error: 'El password de confirmación no puede ir vacio.' }),
-    newPassword: z.string().trim().min(8, { error: 'El password debe ser mínimo 8 caracteres.' })
+    newPassword: z.string().trim().min(8, { error: 'El password debe ser mínimo 8 caracteres.' }),
+    currentPassword: z.string().trim().min(1, { error: 'El password es requerido.' }),
 });
 
 export const SingInSchema = BaseAuthSchema.pick({
@@ -37,7 +38,18 @@ export const SetPasswordSchema = BaseAuthSchema.pick({
 });
 
 export const CheckPasswordSchema = z.object({
-    password: z.string().min(1, {error: 'El password es requerido.'})
+    password: z.string().min(1, { error: 'El password es requerido.' })
+});
+
+export const ChangePasswordSchema = BaseAuthSchema.pick({
+    currentPassword: true,
+    newPassword: true,
+    passwordConfirmation: true
+}).extend({
+    revokeOtherSessions: z.boolean()
+}).refine(data => data.newPassword === data.passwordConfirmation, {
+    error: 'Los Passwords no son iguales',
+    path: ['passwordConfirmation']
 });
 
 export type SingUpInput = z.infer<typeof SingUpSchema>
@@ -45,3 +57,4 @@ export type SingInInput = z.infer<typeof SingInSchema>
 export type ForgotPasswordInput = z.infer<typeof ForgotPasswordSchema>
 export type SetPasswordInput = z.infer<typeof SetPasswordSchema>
 export type CheckPasswordInput = z.infer<typeof CheckPasswordSchema>
+export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>
