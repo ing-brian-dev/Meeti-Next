@@ -14,6 +14,7 @@ export interface IMeetiRepository {
     findAttendeesByMeetiId(meetiId: string): Promise<SelectMeetiAttendeeWithUser[]>;
     findUpcomingByCommunity(communityId: string): Promise<SelectMeeti[]>;
     findByCategory(categoryId: string): Promise<SelectMeeti[]>;
+    delete(meetiId: string): Promise<void>;
 }
 
 class MeetiRepository implements IMeetiRepository {
@@ -195,6 +196,10 @@ class MeetiRepository implements IMeetiRepository {
         });
 
         return result;
+    }
+
+    async delete(meetiId: string) {
+        await db.delete(meeti).where(eq(meeti.id, meetiId));
     }
 }
 

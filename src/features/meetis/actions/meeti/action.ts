@@ -52,3 +52,16 @@ export async function editMeetiAction(input: MeetiInput, meetiId: string) {
         success: 'Meeti Actualizado Correctamente!'
     }
 }
+
+export async function deleteMeetiAction(meetiId: string) {
+    const { session } = await requireAuth();
+    if (!session) {
+        return {
+            error: 'No Autenticado',
+            success: ''
+        }
+    }
+
+    const response = await meetiService.deleteMeeti(meetiId, session.user);
+    return response;
+}
