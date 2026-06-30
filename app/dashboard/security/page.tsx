@@ -1,3 +1,4 @@
+import ActiveSessionsList from "@/src/features/auth/components/ActiveSessionsList";
 import ChangePasswordForm from "@/src/features/auth/components/ChangePasswordForm";
 import Heading from "@/src/shared/components/typography/Heading";
 import { generatePageTitle } from "@/src/shared/utils/metadata";
@@ -14,6 +15,7 @@ export default function SecurityPage() {
         <>
             <Heading>{title}</Heading>
             <ChangePasswordForm />
+            <ActiveSessionsList />
         </>
     )
 }

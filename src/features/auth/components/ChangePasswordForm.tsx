@@ -6,17 +6,25 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ChangePasswordInput, ChangePasswordSchema } from "../schemas/authSchema"
 import { changePasswordAction } from "../actions/auth-action"
+import toast from "react-hot-toast"
 
 export default function ChangePasswordForm() {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
         resolver: zodResolver(ChangePasswordSchema),
         mode: 'all'
     });
 
     const onSubmit = async (data: ChangePasswordInput) => {
-        await changePasswordAction(data);
+        const { error, success } = await changePasswordAction(data);
+        if (error) { toast.error(error) }
+        if (success) {
+            toast.success(success);
+            reset();
+        }
     }
+
+    if (isSubmitting) return "cargando..."
 
     return (
         <>
