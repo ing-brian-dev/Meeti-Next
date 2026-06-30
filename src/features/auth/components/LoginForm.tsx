@@ -13,15 +13,21 @@ import { SingInInput, SingInSchema } from "../schemas/authSchema";
 import { singInAction } from "../actions/auth-action";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginForm() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const [locked, setLocked] = useState(false);
+    
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(SingInSchema),
         mode: 'all'
     })
 
     const onSubmit = async (data: SingInInput) => {
+        if (locked) return;
+        setLocked(true);
+
         const { success, error } = await singInAction(data);
 
         if (error) {
@@ -64,7 +70,8 @@ export default function LoginForm() {
             />
             {errors.password && <FormError>{errors.password.message}</FormError>}
             <FormSubmit
-                value="Iniciar Sesión"
+                value={isSubmitting ? 'Ingresando...' : 'Iniciar Sesión'}
+                disabled={isSubmitting || locked}
             />
         </Form>
     )

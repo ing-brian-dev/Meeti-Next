@@ -157,6 +157,12 @@ class AuthService {
             headers: await headers()
         });
 
+        if (revokeOtherSessions) {
+            await auth.api.revokeSessions({
+                headers: await headers()
+            });
+        }
+
         return {
             error: '',
             success: 'Contraseña Actualizada Correctamente.'

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { ChangePasswordInput, ChangePasswordSchema } from "../schemas/authSchema"
 import { changePasswordAction } from "../actions/auth-action"
 import toast from "react-hot-toast"
+import { redirect } from "next/navigation"
 
 export default function ChangePasswordForm() {
 
@@ -21,6 +22,7 @@ export default function ChangePasswordForm() {
         if (success) {
             toast.success(success);
             reset();
+            redirect('/dashboard/security');
         }
     }
 
