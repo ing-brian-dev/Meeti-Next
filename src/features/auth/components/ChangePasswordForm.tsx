@@ -1,38 +1,73 @@
 "use client"
 
-import { Form, FormInput, FormLabel, FormSubmit } from "@/src/shared/components/forms"
+import { Form, FormError, FormInput, FormLabel, FormSubmit } from "@/src/shared/components/forms"
 import Heading from "@/src/shared/components/typography/Heading"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { ChangePasswordInput, ChangePasswordSchema } from "../schemas/authSchema"
+import { changePasswordAction } from "../actions/auth-action"
 
 export default function ChangePasswordForm() {
 
-  return (
-    <>
-        <Heading level={2} className="mt-10">
-          Cambiar Password
-        </Heading>
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        resolver: zodResolver(ChangePasswordSchema),
+        mode: 'all'
+    });
 
-        <div className="mt-10 p-5 border border-gray-200">
-          <Form onSubmit={() => {} }>
-            <FormLabel htmlFor="currentPassword">Password Actual</FormLabel>
-            <FormInput id="currentPassword" type="password" placeholder="Escribe tu Password Actual" />
+    const onSubmit = async (data: ChangePasswordInput) => {
+        await changePasswordAction(data);
+    }
 
-            <FormLabel htmlFor="newPassword">Nuevo Password</FormLabel>
-            <FormInput id="newPassword" type="password" placeholder="Nuevo Password" />
+    return (
+        <>
+            <Heading level={2} className="mt-10">
+                Cambiar Password
+            </Heading>
+
+            <div className="mt-10 p-5 border border-gray-200">
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <FormLabel htmlFor="currentPassword">Password Actual</FormLabel>
+                    <FormInput
+                        id="currentPassword"
+                        type="password"
+                        placeholder="Escribe tu Password Actual"
+                        {...register('currentPassword')}
+                    />
+                    {errors.currentPassword && <FormError>{errors.currentPassword.message}</FormError>}
+
+                    <FormLabel htmlFor="newPassword">Nuevo Password</FormLabel>
+                    <FormInput
+                        id="newPassword"
+                        type="password"
+                        placeholder="Nuevo Password"
+                        {...register('newPassword')}
+                    />
+                    {errors.newPassword && <FormError>{errors.newPassword.message}</FormError>}
 
 
-            <FormLabel htmlFor="passwordConfirmation">Repetir Nuevo Password</FormLabel>
-            <FormInput id="passwordConfirmation" type="password" placeholder="Repite el Nuevo Password" />
+                    <FormLabel htmlFor="passwordConfirmation">Repetir Nuevo Password</FormLabel>
+                    <FormInput
+                        id="passwordConfirmation"
+                        type="password"
+                        placeholder="Repite el Nuevo Password"
+                        {...register('passwordConfirmation')}
+                    />
+                    {errors.passwordConfirmation && <FormError>{errors.passwordConfirmation.message}</FormError>}
 
+                    <div className="flex gap-5 mt-5">
+                        <FormLabel htmlFor="revokeOtherSessions">Cerrar sesión en todos los dispositivos </FormLabel>
 
-            <div className="flex gap-5 mt-5">
-              <FormLabel htmlFor="revokeOtherSessions">Cerrar sesión en todos los dispositivos </FormLabel>
+                        <FormInput
+                            id="revokeOtherSessions"
+                            type='checkbox'
+                            className='accent-orange-500 p-6 size-5'
+                            {...register('revokeOtherSessions')}
+                        />
+                    </div>
 
-              <FormInput id="revokeOtherSessions" type='checkbox' className='accent-orange-500 p-6 size-5' />
+                    <FormSubmit value='Cambiar Password' />
+                </Form>
             </div>
-
-            <FormSubmit value='Cambiar Password' />
-          </Form>
-        </div>
-      </>
+        </>
     )
 }

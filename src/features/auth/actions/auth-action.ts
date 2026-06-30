@@ -1,7 +1,7 @@
 "use server"
 
 import { ratelimit } from "@/src/lib/limiter";
-import { ForgotPasswordInput, ForgotPasswordSchema, SetPasswordInput, SetPasswordSchema, SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
+import { ChangePasswordInput, ForgotPasswordInput, ForgotPasswordSchema, SetPasswordInput, SetPasswordSchema, SingInInput, SingInSchema, SingUpInput, SingUpSchema } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
 import { getClientIp } from "@/src/shared/utils/ip";
 import { getMinutesDiffFromNow } from "@/src/shared/utils/date";
@@ -86,4 +86,9 @@ export async function setPasswordAction(input: SetPasswordInput, token: string) 
 
     const response = await authService.confirmPasswordReset(data.data, token);
     return response;
+}
+
+export async function changePasswordAction(input: ChangePasswordInput) {
+    console.log(input);
+    
 }
