@@ -1,3 +1,4 @@
+import { deleteUTFiles } from "@/src/lib/uploadthing-server";
 import { User } from "../../auth/types/auth.types";
 import { CommunityPolicy } from "../../communities/policies/CommunityPolicy";
 import { communityRepository, ICommunityRepository } from "../../communities/services/CommunityRepository";
@@ -47,7 +48,7 @@ class MeetiService {
         return enriched;
     }
 
-    async getUpcoming(){
+    async getUpcoming() {
         return await this.meetiRepository.findUpcoming();
     }
 
@@ -141,6 +142,24 @@ class MeetiService {
 
     async getMeetisByCategory(categoryId: string) {
         return await this.meetiRepository.findByCategory(categoryId);
+    }
+
+    async deleteMeeti(meetiId: string, user: User) {
+
+        const meeti = await this.getMeetiById(meetiId);
+        
+
+        if(!MeetiPolicy.canDelete(user,meeti)){
+            throw new Error('No tienes permisos para eliminar');
+        }
+
+        await this.meetiRepository.delete(meetiId);
+        await deleteUTFiles(meeti.image);
+
+        return {
+            error: '',
+            success: 'Meeti Eliminado Correctamente'
+        }
     }
 }
 
